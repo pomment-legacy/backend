@@ -10,6 +10,7 @@
     "eslint-plugin-import": "^2.14.0"
   },
   "dependencies": {
+    "fs-extra": "^7.0.0",
     "sequelize": "^4.39.0",
     "sqlite3": "^4.0.2"
   }
