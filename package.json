@@ -4,10 +4,15 @@
   "repository": "git@git.reallserver.cn:pomment/backend-v2.git",
   "author": "tcdw <tcdw2011@gmail.com>",
   "license": "BSD-3-Clause",
+  "scripts": {
+    "test": "del-cli ./.temp && mocha"
+  },
   "devDependencies": {
+    "del-cli": "^1.1.0",
     "eslint": "^5.6.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0"
+    "eslint-plugin-import": "^2.14.0",
+    "mocha": "^5.2.0"
   },
   "dependencies": {
     "fs-extra": "^7.0.0",
