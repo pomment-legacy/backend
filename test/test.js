@@ -2,7 +2,7 @@ const fs = require('fs');
 const assert = require('assert');
 const log4js = require('log4js');
 
-const PommentData = require('../lib/core/');
+const PommentData = require('../lib/core/data');
 
 const logger = log4js.getLogger('PommentData');
 logger.level = 'debug';
