@@ -86,5 +86,23 @@ describe('Class: PommentData', () => {
                 { verifyLocked: true },
             );
         });
+        it('should be able to do user editing operation', async () => {
+            const pommentData = new PommentData('.temp');
+            const { id, editKey } = await pommentData.addPost(
+                'https://example.com/post',
+                'tcdw',
+                'admin@example.com',
+                'https://example.com',
+                'test the content again',
+                1,
+                false,
+                false,
+                false,
+                { verifyLocked: true },
+            );
+            await pommentData.editPostUser('https://example.com/post', id, 'i am edited!', editKey, false);
+            const result = await pommentData.getPost('https://example.com/post', id);
+            assert(result.content === 'i am edited!', true);
+        });
     });
 });
