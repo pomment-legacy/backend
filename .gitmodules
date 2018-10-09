@@ -1,0 +1,3 @@
+[submodule "lib/whiptail"]
+	path = lib/whiptail
+	url = git@github.com:tcdw/whiptail
