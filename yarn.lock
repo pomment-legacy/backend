@@ -1682,6 +1682,13 @@ nyks@^4.2.1:
   dependencies:
     mout "^1.0.0"
 
+nyks@^5.6.0:
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/nyks/-/nyks-5.6.0.tgz#368d498522d656fa83d31cba33b78aa0f6b406a0"
+  integrity sha512-FQPjmPibomB5fWF/DoTv2/knxaAgq0GsCkBXUZ2AbjySzKGAuBLSXbfYeALP+mxTVU8n3vMG096SkOFKLk1rng==
+  dependencies:
+    mout "^1.0.0"
+
 oauth-sign@~0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.9.0.tgz#47a7b016baa68b5fa0ecf3dee08a85c679ac6455"
