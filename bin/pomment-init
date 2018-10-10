@@ -3,8 +3,8 @@
 const argv = require('minimist')(process.argv.slice(2));
 
 if (argv.h || argv.help) {
-    console.log('usage: pomment-init [data_directory]');
+    console.log('usage: pomment-init [data_directory] [--noconfig]');
     process.exit(0);
 }
 
-require('../lib/init')(argv._[0]);
+require('../lib/init')(argv._[0], argv.noconfig);
