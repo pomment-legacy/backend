@@ -17,6 +17,11 @@
   "dependencies": {
     "chalk": "^2.4.1",
     "fs-extra": "^7.0.0",
+    "koa": "^2.5.3",
+    "koa-body": "^4.0.4",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^3.2.0",
+    "koa-router": "^7.4.0",
     "log4js": "^3.0.5",
     "minimist": "^1.2.0",
     "nyks": "^5.6.0",
