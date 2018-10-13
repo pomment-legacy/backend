@@ -4,4 +4,7 @@ const argv = require('minimist')(process.argv.slice(2));
 
 if (argv.h || argv.help) {
     console.log('usage: pomment-server [data_directory]');
+    process.exit(0);
 }
+
+require('../lib/server')(argv._[0]);

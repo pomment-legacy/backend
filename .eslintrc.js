@@ -11,5 +11,8 @@ module.exports = {
     },
     "env": {
         "node": true
+    },
+    "globals": {
+        "$POM": true
     }
 };
