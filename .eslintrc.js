@@ -12,6 +12,8 @@ module.exports = {
         "node": true
     },
     "globals": {
-        "$POM": true
+        "$POC": true,       // config
+        "$POD": true,       // data instance
+        "$POM": true        // general info
     }
 };
