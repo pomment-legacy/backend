@@ -105,4 +105,10 @@ describe('Class: PommentData', () => {
             assert(result.content === 'i am edited!', true);
         });
     });
+    describe('thread', () => {
+        it('should be able to add titles to list', async () => {
+            const pommentData = new PommentData('.temp');
+            const result = await pommentData.addThreadTitle('https://example.com/post', 'derp');
+        });
+    });
 });
