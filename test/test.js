@@ -108,7 +108,15 @@ describe('Class: PommentData', () => {
     describe('thread', () => {
         it('should be able to add titles to list', async () => {
             const pommentData = new PommentData('.temp');
-            const result = await pommentData.addThreadTitle('https://example.com/post', 'derp');
+            await pommentData.addThreadTitle('https://example.com/post', 'derp');
+        });
+        it('should be able to give the list', () => {
+            const pommentData = new PommentData('.temp');
+            logger.info(JSON.stringify(pommentData.getThreads(), null, 4));
+        });
+        it('should be able to get attribute of a thread', () => {
+            const pommentData = new PommentData('.temp');
+            logger.info(JSON.stringify(pommentData.getThreadAttribute('https://example.com/post'), null, 4));
         });
     });
 });
