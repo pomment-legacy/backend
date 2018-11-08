@@ -67,7 +67,7 @@ describe('Class: PommentData', () => {
                     { verifyLocked: true },
                 );
             } catch (e) {
-                if (e.toString() !== 'Error: Thread locked') {
+                if (e.toString() !== 'Error: This thread is already locked and verifyLocked is enabled') {
                     throw e;
                 }
             }
