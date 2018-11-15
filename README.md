@@ -4,7 +4,7 @@
 
 ## 部署
 
-1. 安装 Node.js。建议为 Pomment 单独创建 UNIX 用户或容器，并使用 [n-install](https://github.com/tj/n) 以用户态部署。
+1. 安装 Node.js。建议为 Pomment 单独创建 UNIX 用户或容器，并使用 [n-install](https://github.com/mklement0/n-install) 以用户态部署。
 2. 安装 Pomment 服务端：
 
 ```bash
