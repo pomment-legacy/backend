@@ -8,7 +8,8 @@ module.exports = {
             "SwitchCase": 1
         }],
         "prefer-destructuring": "off",
-        "max-len": "off"
+        "max-len": "off",
+        "no-console": "off",
     },
     "env": {
         "node": true
