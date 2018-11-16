@@ -1,5 +1,5 @@
 {
-  "name": "pomment-backend",
+  "name": "@pomment/backend",
   "version": "2.0.1-rc.2",
   "repository": "git@git.reallserver.cn:pomment/backend-v2.git",
   "author": "tcdw <tcdw2011@gmail.com>",
