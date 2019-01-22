@@ -8,7 +8,7 @@
 2. 安装 Pomment 服务端：
 
 ```bash
-yarn global add git+https://git.reallserver.cn/pomment/backend-v2
+npm install -g pomment-frontend
 ```
 
 3. 初始化数据文件夹：
