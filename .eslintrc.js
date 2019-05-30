@@ -14,9 +14,4 @@ module.exports = {
     "env": {
         "node": true
     },
-    "globals": {
-        "$POC": true,       // config
-        "$POD": true,       // data instance
-        "$POM": true        // general info
-    }
 };
