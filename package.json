@@ -1,7 +1,7 @@
 {
   "name": "pomment-backend",
   "version": "2.4.0",
-  "repository": "git@git.reallserver.cn:pomment/backend-v2.git",
+  "repository": "git@github.com/pomment/backend.git",
   "author": "tcdw <tcdw2011@gmail.com>",
   "license": "BSD-3-Clause",
   "scripts": {
