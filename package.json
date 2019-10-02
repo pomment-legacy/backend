@@ -1,6 +1,6 @@
 {
   "name": "pomment-backend",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "repository": "git@github.com/pomment/backend.git",
   "author": "tcdw <tcdw2011@gmail.com>",
   "license": "BSD-3-Clause",
@@ -28,7 +28,7 @@
     "minimist": "^1.2.0",
     "nodemailer": "^6.3.0",
     "nyks": "^5.14.2",
-    "pomment-core": "2.0.5",
+    "pomment-core": "^2.1.0",
     "request": "^2.88.0"
   },
   "bin": {
