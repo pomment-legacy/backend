@@ -1,0 +1,45 @@
+#!/usr/bin/env node
+
+const childProcess = require('child_process');
+const fs = require('fs-extra');
+const path = require('path');
+const argv = require('minimist')(process.argv.slice(2));
+
+if (argv.h || argv.help) {
+    console.log('usage: pomment-manage-thread data_directory thread_url [-e editor]');
+    process.exit(0);
+}
+
+const getThreadPath = (workingDir, url, position = 'threads', ext = 'json') => {
+    const newURL = encodeURIComponent(url).replace(/\*/g, '%2A');
+    let newName = `${newURL}.${ext}`;
+    if (newName.length > 255) {
+        newName = newName.slice(newName.length - 255);
+    }
+    return path.join(workingDir, position, newName);
+};
+
+const exec = (command, args, options) => new Promise((resolve, reject) => {
+    const child = childProcess.spawn(command, args, options);
+    child.on('exit', (e, code) => {
+        if (e) {
+            reject(e);
+        } else {
+            resolve(code);
+        }
+    });
+});
+
+(async () => {
+    const workingDir = path.resolve(process.cwd(), argv._[0]);
+    const editor = argv.e || process.env.EDITOR || 'vi';
+    const itemPath = getThreadPath(workingDir, argv._[1]);
+    if (!fs.existsSync(itemPath)) {
+        console.error(`${argv._[1]} does not exist!`);
+        process.exit(1);
+        return;
+    }
+    await exec(editor, [itemPath], {
+        stdio: 'inherit',
+    });
+})();
