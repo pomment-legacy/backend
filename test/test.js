@@ -64,6 +64,7 @@ describe('Class: PommentData', () => {
                     false,
                     false,
                     false,
+                    0,
                     { verifyLocked: true },
                 );
             } catch (e) {
@@ -83,6 +84,7 @@ describe('Class: PommentData', () => {
                 false,
                 false,
                 false,
+                0,
                 { verifyLocked: true },
             );
         });
@@ -98,6 +100,7 @@ describe('Class: PommentData', () => {
                 false,
                 false,
                 false,
+                0,
                 { verifyLocked: true },
             );
             await pommentData.editPostUser('https://example.com/post', id, 'i am edited!', editKey, false);
