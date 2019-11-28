@@ -29,7 +29,9 @@
     "nodemailer": "^6.3.1",
     "nyks": "^5.14.3",
     "pomment-core": "^2.1.0",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.2"
   },
   "bin": {
     "pomment-config": "./bin/pomment-config",
