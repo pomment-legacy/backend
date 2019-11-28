@@ -1,3 +1,2 @@
-const a: number = 114514;
-
-console.log("hi! " + a);
+import * as Koa from "koa";
+import * as Router from "koa-router";
