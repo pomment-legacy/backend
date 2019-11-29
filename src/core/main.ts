@@ -303,6 +303,7 @@ export class PommentData {
 
     public trashThread(url: string) {
         this.indexMap.delete(url);
+        this.saveThreadList();
         fs.mkdirpSync(path.join(this.workingDir, "trashes"));
         if (fs.existsSync(this.getThreadPath(url))) {
             fs.moveSync(this.getThreadPath(url), this.getThreadPath(url, "trashes"));
