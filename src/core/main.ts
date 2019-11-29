@@ -1,6 +1,5 @@
 import crypto from "crypto";
 import fs from "fs-extra";
-import log4js from "log4js";
 import path from "path";
 
 import SHA from "../lib/sha";
