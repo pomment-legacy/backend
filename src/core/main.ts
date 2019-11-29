@@ -71,7 +71,7 @@ export class PommentData {
 
     constructor(workingDir: string) {
         this.workingDir = workingDir;
-        this.indexMap = new Map<string, IThreadItem>();
+        this.indexMap = new Map<string, IThreadItem>(fs.readJSONSync(path.join(workingDir, "index.json"), fsOpts));
     }
 
     public getThreadPath(url: string, position = "threads", ext = "json") {
