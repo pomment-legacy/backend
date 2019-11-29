@@ -32,17 +32,17 @@ export interface IPostQueryResults {
 
 export interface IPostEditArgs {
     id?: number;
-    name?: string;
+    name?: string | null;
     email?: string;
-    website?: string;
-    avatar?: string;
+    website?: string | null;
+    avatar?: string | null;
     parent?: number;
     content?: string;
     hidden?: boolean;
-    rating?: number;
+    rating?: number | null;
     byAdmin?: boolean;
     receiveEmail?: boolean;
-    editKey?: string;
+    editKey?: string | null;
     updatedAt?: number;
     createdAt?: number;
 }
@@ -141,15 +141,15 @@ export class PommentData {
 
     public async addPost(
         url: string,
-        name: string,
+        name: string | null,
         email: string,
-        website: string,
+        website: string | null,
         content: string,
         parent = -1,
         receiveEmail: boolean,
         byAdmin: boolean,
         hidden = false,
-        rating = null,
+        rating: number | null = null,
         {
             verifyLocked = false,
         } = {},

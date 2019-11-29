@@ -20,6 +20,7 @@
     "@types/koa-json": "^2.0.18",
     "@types/koa-logger": "^3.1.1",
     "@types/koa-router": "^7.0.42",
+    "@types/request": "^2.48.3",
     "base64url": "^3.0.1",
     "chalk": "^3.0.0",
     "fs-extra": "^8.1.0",
