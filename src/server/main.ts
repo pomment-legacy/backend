@@ -10,6 +10,7 @@ import { PommentData } from "../core/main";
 import { IConfig } from "../interface/config";
 import { IPommentContext } from "../interface/context";
 import routeList from "./route/list";
+import routeSubmit from "./route/submit";
 
 export type IContext = Koa.ParameterizedContext<{}, IPommentContext & Router.IRouterParamContext<{}, IPommentContext>>;
 
@@ -23,6 +24,7 @@ function bootServer(entry: string) {
     const pomment = new PommentData(entry);
 
     router.post("/v2/list", routeList);
+    router.post("/v2/submit", routeSubmit);
 
     app.use(kLogger());
     app.use((ctx, next) => {

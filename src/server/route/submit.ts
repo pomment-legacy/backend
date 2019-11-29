@@ -107,3 +107,5 @@ const routeSubmit = async (ctx: IContext) => {
         logger.info("Background task finished");
     }, 0);
 };
+
+export default routeSubmit;
