@@ -17,6 +17,7 @@
   "dependencies": {
     "@types/fs-extra": "^8.0.1",
     "@types/koa": "^2.11.0",
+    "@types/koa-json": "^2.0.18",
     "@types/koa-router": "^7.0.42",
     "base64url": "^3.0.1",
     "chalk": "^3.0.0",
