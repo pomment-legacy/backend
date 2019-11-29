@@ -92,6 +92,7 @@ export class PommentData {
             return false;
         }
         this.indexMap.set(url, { title });
+        this.saveThreadList();
         return true;
     }
 
@@ -309,5 +310,9 @@ export class PommentData {
         if (fs.existsSync(this.getThreadPath(url, undefined, "lock"))) {
             fs.moveSync(this.getThreadPath(url, undefined, "lock"), this.getThreadPath(url, "trashes", "lock"));
         }
+    }
+
+    private saveThreadList() {
+        fs.writeJSONSync(path.join(this.workingDir, "index.json"), [...this.indexMap], fsOpts);
     }
 }
