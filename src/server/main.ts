@@ -24,6 +24,7 @@ function bootServer(entry: string) {
 
     router.post("/v2/list", routeList);
 
+    app.use(kLogger());
     app.use((ctx, next) => {
         ctx.userConfig = config;
         ctx.pomment = pomment;
@@ -33,7 +34,6 @@ function bootServer(entry: string) {
     app.use(body());
     app.use(router.routes());
     app.use(json());
-    app.use(kLogger());
     app.listen(5000);
 
     logger.level = logLevel;

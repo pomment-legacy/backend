@@ -13,12 +13,15 @@ const routeList = async (ctx: IContext) => {
             content: await pomment.getPosts(body.url),
         };
     } catch (e) {
-        logger.info(`Ignored error: ${e.toString()}`);
-        ctx.response.body = {
-            url: body.url,
-            locked: false,
-            content: [],
-        };
+        if (e.code === "ENOENT") {
+            ctx.response.body = {
+                url: body.url,
+                locked: false,
+                content: [],
+            };
+            return;
+        }
+        throw e;
     }
 };
 
