@@ -1,34 +1,12 @@
 import crypto from "crypto";
 import fs from "fs-extra";
 import path from "path";
-
+import { IPostItem, IPostQueryResults, IThreadItem } from "pomment-common/dist/interface/post";
 import SHA from "../lib/sha";
 import wipeInvalid from "../lib/wipe_invalid";
 
 const fsOpts = { encoding: "utf8" };
 const toTimeStamp = (e: number) => new Date(e).getTime();
-
-export interface IThreadItem {
-    title: string;
-}
-
-export interface IPostQueryResults {
-    id: number;
-    name: string | null;
-    email: string;
-    website: string | null;
-    avatar: string | null;
-    parent: number;
-    content: string;
-    hidden: boolean;
-    rating: number | null;
-    byAdmin: boolean;
-    receiveEmail: boolean;
-    editKey: string | null;
-    updatedAt: number;
-    createdAt: number;
-    origContent: string;
-}
 
 export interface IPostEditArgs {
     id?: number;
@@ -45,19 +23,6 @@ export interface IPostEditArgs {
     editKey?: string | null;
     updatedAt?: number;
     createdAt?: number;
-}
-
-export interface IPostItem {
-    id: number;
-    name: string | null;
-    emailHashed: string | null;
-    website: string | null;
-    avatar: string | null;
-    parent: number;
-    content: string;
-    byAdmin: boolean;
-    createdAt: number;
-    edited: boolean;
 }
 
 export class PommentData {

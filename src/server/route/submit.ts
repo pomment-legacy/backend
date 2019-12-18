@@ -1,5 +1,5 @@
 import log4js from "log4js";
-import { IPostQueryResults } from "../../core/main";
+import { IPostQueryResults } from "pomment-common/dist/interface/post";
 import checkSubmit from "../../lib/check_submit";
 import reCAPTCHA from "../../lib/recaptcha";
 import { IContext } from "../main";
