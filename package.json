@@ -5,7 +5,10 @@
   "author": "tcdw <tcdw2011@gmail.com>",
   "license": "BSD-3-Clause",
   "scripts": {
-    "test": "del-cli ./.temp && mocha"
+    "test": "del-cli ./.temp && mocha",
+    "build": "tsc --build tsconfig.json",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "clean": "del-cli dist"
   },
   "devDependencies": {
     "del-cli": "^3.0.0",
