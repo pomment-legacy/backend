@@ -22,7 +22,7 @@ export interface IConfig {
     };
     webhook: {
         enabled: false;
-        urls: string[];
+        url: string[];
     };
     antiSpamProvider: boolean;
 }
