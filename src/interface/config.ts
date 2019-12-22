@@ -20,5 +20,9 @@ export interface IConfig {
         secretKey: string;
         minimumScore: number;
     };
+    webhook: {
+        enabled: false;
+        urls: string[];
+    };
     antiSpamProvider: boolean;
 }
