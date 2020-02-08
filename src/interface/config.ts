@@ -6,7 +6,7 @@ export interface IConfig {
         email: string;
     };
     guestNotify: {
-        mode: number;
+        mode: NotifyType;
         smtpSender: string;
         smtpHost: string;
         smtpPort: number;
@@ -20,9 +20,12 @@ export interface IConfig {
         secretKey: string;
         minimumScore: number;
     };
-    webhook: {
-        enabled: false;
-        url: string[];
-    };
+    callback: [];
     antiSpamProvider: boolean;
+}
+
+export enum NotifyType {
+    disabled = 1,
+    smtp = 2,
+    mailgun = 3,
 }
