@@ -38,10 +38,10 @@ function bootServer(entry: string) {
     app.use(body());
     app.use(router.routes());
     app.use(json());
-    app.listen(5000);
+    app.listen(config.apiPort, config.apiHost);
 
     logger.level = logLevel;
-    logger.info("Server is listening at 5000");
+    logger.info(`Server is listening at http://${config.apiHost}:${config.apiPort}`);
 }
 
 export default bootServer;
