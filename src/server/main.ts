@@ -9,6 +9,7 @@ import path from "path";
 import { PommentData } from "../core/main";
 import { IConfig } from "../interface/config";
 import { IPommentContext } from "../interface/context";
+import routeDelete from "./route/delete";
 import routeEdit from "./route/edit";
 import routeList from "./route/list";
 import routeSubmit from "./route/submit";
@@ -27,6 +28,7 @@ function bootServer(entry: string) {
     router.post("/v2/list", routeList);
     router.post("/v2/submit", routeSubmit);
     router.post("/v2/edit", routeEdit);
+    router.post("/v2/delete", routeDelete);
 
     app.use(kLogger());
     app.use((ctx, next) => {
