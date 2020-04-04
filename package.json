@@ -25,7 +25,7 @@
     "koa-logger": "^3.2.1",
     "koa-router": "^7.4.0",
     "log4js": "^5.1.0",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.3",
     "nodemailer": "^6.3.0",
     "nyks": "^5.14.2",
     "pomment-core": "^2.1.0",
