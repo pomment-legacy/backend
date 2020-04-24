@@ -48,7 +48,7 @@ const routeEdit = async (ctx: IContext) => {
     //     await executeWebhook(globalContext, webhookResult, logger);
     //     logger.info("Background task finished");
     // }, 0);
-    return true;
+    // return true;
 };
 
 export default routeEdit;

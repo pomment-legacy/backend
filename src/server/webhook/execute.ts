@@ -1,3 +1,5 @@
+/* eslint-disable no-continue */
+/* eslint-disable no-await-in-loop */
 import axios from 'axios';
 import { Logger } from 'log4js';
 

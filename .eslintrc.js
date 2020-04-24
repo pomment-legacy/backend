@@ -19,6 +19,23 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
-    'indent': ['error', 4]
+    indent: ['error', 4],
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        'js': 'never',
+        'ts': 'never',
+      }
+    ],
+    'no-unused-vars': 'off',
+    'no-plusplus': ['error', { 'allowForLoopAfterthoughts': true }],
+  },
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.ts'],
+      },
+    },
   },
 };

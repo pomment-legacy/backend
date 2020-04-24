@@ -14,7 +14,8 @@ import routeEdit from './route/edit';
 import routeList from './route/list';
 import routeSubmit from './route/submit';
 
-export type IContext = Koa.ParameterizedContext<{}, IPommentContext & Router.IRouterParamContext<{}, IPommentContext>>;
+export type IContext =
+    Koa.ParameterizedContext<{}, IPommentContext & Router.IRouterParamContext<{}, IPommentContext>>;
 
 function bootServer(entry: string) {
     const logger = log4js.getLogger('Main');

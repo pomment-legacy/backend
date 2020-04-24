@@ -167,7 +167,17 @@ export class PommentData {
     }
 
     public async editPost(url: string, id: number, {
-        name, email, website, parent, content, hidden, byAdmin, receiveEmail, editKey, avatar, rating,
+        name,
+        email,
+        website,
+        parent,
+        content,
+        hidden,
+        byAdmin,
+        receiveEmail,
+        editKey,
+        avatar,
+        rating,
     // tslint:disable-next-line: align
     }: IPostEditArgs = {}, {
         verifyLocked = false,
@@ -178,7 +188,17 @@ export class PommentData {
         }
         const list: IPostQueryResults[] = await fs.readJSON(this.getThreadPath(url), fsOpts);
         const toUpdate = {
-            name, email, website, parent, content, hidden, byAdmin, receiveEmail, editKey, avatar, rating,
+            name,
+            email,
+            website,
+            parent,
+            content,
+            hidden,
+            byAdmin,
+            receiveEmail,
+            editKey,
+            avatar,
+            rating,
         };
         let targetID = 0;
         wipeInvalid(toUpdate);
@@ -230,7 +250,9 @@ export class PommentData {
         await fs.writeJSONSync(this.getThreadPath(url), list, { ...fsOpts, spaces: 4 });
     }
 
-    public async editPostUser(url: string, id: number, content: string, editKey: string, remove = false) {
+    public async editPostUser(
+        url: string, id: number, content: string, editKey: string, remove = false,
+    ) {
         const wanted = await this.getPost(url, id);
         if (wanted === null) {
             throw new Error('Post not found');

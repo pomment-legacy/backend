@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const wipeInvalid = (obj: { [key: string]: any; }) => {
     const keys = Object.keys(obj);
     keys.forEach((e) => {
