@@ -1,5 +1,5 @@
-import { PommentData } from "../core/main";
-import { IConfig } from "./config";
+import { PommentData } from '../core/main';
+import { IConfig } from './config';
 
 export interface IPommentContext {
     userConfig: IConfig;

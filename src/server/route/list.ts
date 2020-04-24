@@ -1,5 +1,5 @@
-import log4js from "log4js";
-import { IContext } from "../main";
+import log4js from 'log4js';
+import { IContext } from '../main';
 
 export interface IListBody {
     url: string;
@@ -15,9 +15,9 @@ export interface IListBody {
  * @param ctx 上下文
  */
 const routeList = async (ctx: IContext) => {
-    const logger = log4js.getLogger("Server: /v2/list");
+    const logger = log4js.getLogger('Server: /v2/list');
     logger.level = ctx.logLevel;
-    const body: IListBody = ctx.request.body;
+    const { body } = ctx.request;
     const { pomment } = ctx;
     try {
         ctx.response.body = {
@@ -26,7 +26,7 @@ const routeList = async (ctx: IContext) => {
             content: await pomment.getPosts(body.url),
         };
     } catch (e) {
-        if (e.code === "ENOENT") {
+        if (e.code === 'ENOENT') {
             ctx.response.body = {
                 url: body.url,
                 locked: false,

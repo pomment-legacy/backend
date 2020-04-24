@@ -1,5 +1,5 @@
-import axios from "axios";
-import { Logger } from "log4js";
+import axios from 'axios';
+import { Logger } from 'log4js';
 
 const executeWebhook = async (list: string[], data: any, logger: Logger) => {
     for (let i = 0; i < list.length; i++) {
@@ -7,7 +7,7 @@ const executeWebhook = async (list: string[], data: any, logger: Logger) => {
         try {
             const result = await axios.post(list[i], {
                 headers: {
-                    "User-Agent": "Pomment (Webhook Handler)",
+                    'User-Agent': 'Pomment (Webhook Handler)',
                 },
                 data,
             });

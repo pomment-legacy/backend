@@ -1,6 +1,6 @@
-import log4js from "log4js";
-import reCAPTCHA from "../../lib/recaptcha";
-import { IContext } from "../main";
+import log4js from 'log4js';
+import reCAPTCHA from '../../lib/recaptcha';
+import { IContext } from '../main';
 
 export interface IEditBody {
     url: string;
@@ -11,29 +11,28 @@ export interface IEditBody {
 }
 
 const routeEdit = async (ctx: IContext) => {
-    const logger = log4js.getLogger("Server: /v2/edit");
+    const logger = log4js.getLogger('Server: /v2/edit');
     logger.level = ctx.logLevel;
-    const body: IEditBody = ctx.request.body;
+    const { body } = ctx.request;
     let reCAPTCHAScore: number | null = null;
-    ctx.response.body = "";
+    ctx.response.body = '';
     if (ctx.userConfig.reCAPTCHA.enabled) {
         if (body.responseKey === null) {
-            logger.info("Invaild responseKey!");
+            logger.info('Invaild responseKey!');
             ctx.status = 400;
             return false;
+        }
+        const result = await reCAPTCHA(
+            ctx.userConfig,
+            ctx.userConfig.reCAPTCHA.secretKey,
+            body.responseKey,
+            logger,
+        );
+        reCAPTCHAScore = result.score;
+        if (!result.hidden) {
+            await ctx.pomment.editPostUser(body.url, body.id, body.content, body.editKey);
         } else {
-            const result = await reCAPTCHA(
-                ctx.userConfig,
-                ctx.userConfig.reCAPTCHA.secretKey,
-                body.responseKey,
-                logger,
-            );
-            reCAPTCHAScore = result.score;
-            if (!result.hidden) {
-                await ctx.pomment.editPostUser(body.url, body.id, body.content, body.editKey);
-            } else {
-                return true;
-            }
+            return true;
         }
     }
     await ctx.pomment.editPostUser(body.url, body.id, body.content, body.editKey);

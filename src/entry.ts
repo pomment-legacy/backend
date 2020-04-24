@@ -1,3 +1,3 @@
-import bootServer from "./server/main";
+import bootServer from './server/main';
 
-bootServer("temp-entry");
+bootServer('temp-entry');
