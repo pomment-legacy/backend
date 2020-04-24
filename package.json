@@ -20,6 +20,8 @@
     "mocha": "^7.1.1"
   },
   "dependencies": {
+    "@braintree/sanitize-url": "^4.0.1",
+    "@types/braintree__sanitize-url": "^4.0.0",
     "@types/fs-extra": "^8.1.0",
     "@types/koa": "^2.11.3",
     "@types/koa-json": "^2.0.18",

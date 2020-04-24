@@ -1,5 +1,6 @@
 import log4js from 'log4js';
 import { IPostQueryResults } from 'pomment-common/dist/interface/post';
+import { sanitizeUrl } from '@braintree/sanitize-url';
 import checkSubmit from '../../lib/check_submit';
 import reCAPTCHA from '../../lib/recaptcha';
 import { IContext } from '../main';
@@ -24,7 +25,7 @@ const routeSubmit = async (ctx: IContext) => {
     let query: IPostQueryResults;
     try {
         let finalName = body.name === null ? null : body.name.trim();
-        let finalWebsite = body.website === null ? null : body.website.trim();
+        let finalWebsite = body.website === null ? null : sanitizeUrl(body.website.trim());
         if (finalName === '') {
             finalName = null;
         }
