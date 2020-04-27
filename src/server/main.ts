@@ -6,6 +6,7 @@ import kLogger from 'koa-logger';
 import Router from 'koa-router';
 import log4js from 'log4js';
 import path from 'path';
+import yaml from 'js-yaml';
 import { PommentData } from '../core/main';
 import { IConfig } from '../interface/config';
 import { IPommentContext } from '../interface/context';
@@ -20,8 +21,8 @@ export type IContext =
 function bootServer(entry: string) {
     const logger = log4js.getLogger('Main');
     const logLevel = process.env.PMNT_LOG_LEVEL || 'info';
-    const configPath = path.join(entry, 'config.json');
-    const config: IConfig = fs.readJSONSync(configPath, { encoding: 'utf8' });
+    const configPath = path.join(entry, 'config.yaml');
+    const config: IConfig = yaml.safeLoad(fs.readFileSync(configPath, { encoding: 'utf8' }));
     const app = new Koa<{}, IPommentContext>();
     const router = new Router<{}, IPommentContext>();
     const pomment = new PommentData(entry);
