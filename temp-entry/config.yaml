@@ -16,4 +16,10 @@ reCAPTCHA:
     enabled: false
     secretKey: ''
     minimumScore: 0.1
-antiSpamProvider: false
+webhook:
+    enabled: false
+    targets:
+        - https://www.example.com/target-1
+        - https://www.example.com/target-2
+        - https://www.example.com/target-3
+        - https://www.example.com/target-4
