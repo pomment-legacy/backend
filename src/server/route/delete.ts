@@ -5,9 +5,7 @@ import { IContext } from '../main';
 export interface IDeleteBody {
     url: string;
     id: number;
-    content: string;
     editKey: string;
-    responseKey: string | null;
 }
 
 const routeDelete = async (ctx: IContext) => {

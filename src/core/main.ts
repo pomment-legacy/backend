@@ -91,7 +91,7 @@ export class PommentData {
                 edited,
             });
         });
-        return filtered;
+        return output;
     }
 
     public async getPost(url: string, id: number) {

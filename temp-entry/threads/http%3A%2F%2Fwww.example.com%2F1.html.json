@@ -1,0 +1,36 @@
+[
+    {
+        "id": 1,
+        "name": "tcdw",
+        "email": "tcdw2011@gmail.com",
+        "website": "https://www.tcdw.net",
+        "avatar": null,
+        "parent": -1,
+        "content": "测试一篇评论！",
+        "hidden": false,
+        "rating": null,
+        "byAdmin": false,
+        "receiveEmail": false,
+        "editKey": "f6bb3f7c70d4b6c6",
+        "createdAt": 1588249836359,
+        "updatedAt": 1588249836359,
+        "origContent": "测试一篇评论！"
+    },
+    {
+        "id": 2,
+        "name": "tcdw",
+        "email": "tcdw2011@gmail.com",
+        "website": "https://www.tcdw.net",
+        "avatar": null,
+        "parent": -1,
+        "content": "它被编辑了！",
+        "hidden": true,
+        "rating": null,
+        "byAdmin": false,
+        "receiveEmail": false,
+        "editKey": "5b0caa98334587e5",
+        "createdAt": 1588250351166,
+        "updatedAt": 1588250719654,
+        "origContent": "测试一篇评论！"
+    }
+]
