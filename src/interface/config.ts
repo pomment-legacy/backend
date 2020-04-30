@@ -4,6 +4,7 @@ export interface IConfig {
     siteAdmin: {
         name: string;
         email: string;
+        password: string;
     };
     guestNotify: {
         mode: NotifyType;

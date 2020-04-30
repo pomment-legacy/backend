@@ -3,6 +3,8 @@ apiPort: 5000
 siteAdmin:
     name: Alice
     email: alice@example.com
+    # password 的明文为 `password`
+    password: b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a2ea6d103fd07c95385ffab0cacbc86
 guestNotify:
     mode: 0
     smtpSender: '"Alice" <foo@example.com>'
