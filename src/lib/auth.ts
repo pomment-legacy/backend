@@ -22,25 +22,34 @@ class Auth {
         this.queue = [];
     }
 
-    auth(time: Date, token: string): boolean {
-        const userTimestamp = time.getTime();
+    auth(time: number, token: string): boolean {
+        if (typeof time !== 'number' || typeof token !== 'string') {
+            this.logger.error('Invaild arguments');
+            return false;
+        }
+
+        const userTimestamp = time;
         const sysTimestamp = new Date().getTime();
         const gap = Math.abs(userTimestamp - sysTimestamp) / 1000;
         this.logger.debug(`userTimestamp: ${userTimestamp}, sysTimestamp: ${sysTimestamp}, gap: ${gap}`);
+
         if (gap > Auth.maxTimeGap) {
-            this.logger.error('Timestamp expired or invaild');
+            this.logger.error('Timestamp expired');
             return false;
         }
         const correct = crypto.createHmac('sha512', this.password).update(`${userTimestamp}`).digest('hex');
         this.logger.debug(`correct: ${correct}`);
+
         if (correct !== token) {
             this.logger.error('Bad password');
             return false;
         }
+
         if (this.queue.includes(userTimestamp)) {
             this.logger.error('Timestamp is used before');
             return false;
         }
+
         this.queue.push(userTimestamp);
         if (this.timer === null) {
             this.logger.debug('Creating queue cleaning task');
@@ -48,6 +57,7 @@ class Auth {
         } else {
             this.logger.debug('Already having cleaning task, skipping creation');
         }
+
         return true;
     }
 

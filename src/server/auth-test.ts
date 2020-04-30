@@ -15,7 +15,7 @@ const routeList = async (ctx: IContext) => {
     const { body } = ctx.request;
     const { pomment, auth } = ctx;
     ctx.response.body = {
-        success: auth.auth(new Date(body.time), body.token),
+        success: auth.auth(body.time, body.token),
     };
 };
 
