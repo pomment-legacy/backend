@@ -34,7 +34,7 @@ function bootServer(entry: string) {
     router.post('/v2/submit', routeSubmit);
     router.post('/v2/edit', routeEdit);
     router.post('/v2/delete', routeDelete);
-    router.post('/auth-test', routeAuthTest);
+    // router.post('/auth-test', routeAuthTest);
 
     app.use(kLogger());
     app.use((ctx, next) => {
