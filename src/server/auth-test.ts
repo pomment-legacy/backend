@@ -13,9 +13,9 @@ const routeList = async (ctx: IContext) => {
     const logger = log4js.getLogger('Server: /auth-test');
     logger.level = ctx.logLevel;
     const { body } = ctx.request;
-    const { pomment, auth } = ctx;
+    const { pomment, userAuth } = ctx;
     ctx.response.body = {
-        success: auth.auth(body.time, body.token),
+        success: userAuth.auth(body.time, body.token),
     };
 };
 

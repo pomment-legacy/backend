@@ -15,7 +15,6 @@ import routeDelete from './route/delete';
 import routeEdit from './route/edit';
 import routeList from './route/list';
 import routeSubmit from './route/submit';
-import routeAuthTest from './auth-test';
 
 export type IContext =
     Koa.ParameterizedContext<{}, IPommentContext & Router.IRouterParamContext<{}, IPommentContext>>;
@@ -41,7 +40,7 @@ function bootServer(entry: string) {
         ctx.userConfig = config;
         ctx.pomment = pomment;
         ctx.logLevel = logLevel;
-        ctx.auth = auth;
+        ctx.userAuth = auth;
         return next();
     });
     app.use(body());
