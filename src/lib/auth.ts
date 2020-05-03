@@ -3,7 +3,7 @@ import log4js from 'log4js';
 
 const logLevel = process.env.PMNT_LOG_LEVEL || 'info';
 
-class Auth {
+export class Auth {
     private password: string;
 
     private timer: NodeJS.Timeout | null;
@@ -79,4 +79,7 @@ class Auth {
     }
 }
 
-export default Auth;
+export interface IAuth {
+    time: number;
+    token: string;
+}

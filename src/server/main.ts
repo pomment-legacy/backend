@@ -7,7 +7,7 @@ import Router from 'koa-router';
 import log4js from 'log4js';
 import path from 'path';
 import yaml from 'js-yaml';
-import Auth from '../lib/auth';
+import { Auth } from '../lib/auth';
 import { PommentData } from '../core/main';
 import { IConfig } from '../interface/config';
 import { IPommentContext } from '../interface/context';
@@ -15,6 +15,7 @@ import routeDelete from './route/delete';
 import routeEdit from './route/edit';
 import routeList from './route/list';
 import routeSubmit from './route/submit';
+import routeManageSubmit from './route/manage-submit';
 
 export type IContext =
     Koa.ParameterizedContext<{}, IPommentContext & Router.IRouterParamContext<{}, IPommentContext>>;
@@ -33,6 +34,7 @@ function bootServer(entry: string) {
     router.post('/v2/submit', routeSubmit);
     router.post('/v2/edit', routeEdit);
     router.post('/v2/delete', routeDelete);
+    router.post('/v2/manage/submit', routeManageSubmit);
     // router.post('/auth-test', routeAuthTest);
 
     app.use(kLogger());
