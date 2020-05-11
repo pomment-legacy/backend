@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import fs from 'fs-extra';
 import path from 'path';
-import { IPostItem, IPostQueryResults, IThreadItem } from 'pomment-common/dist/interface/post';
+import { IPostItem, IPostQueryResults, IThreadItem } from 'pomment-common/src/interface/post';
 import SHA from '../lib/sha';
 import wipeInvalid from '../lib/wipe_invalid';
 
@@ -54,13 +54,22 @@ export class PommentData {
         return this.indexMap.get(url);
     }
 
-    public addThreadTitle(url: string, title: string, override = false) {
+    public async updateThreadInfo(url: string, title: string, override = false) {
         if (!override && this.indexMap.has(url)) {
-            return false;
+            const ref = this.indexMap.get(url);
+            if (ref !== undefined) {
+                ref.amount = await this.getPostsAmount(url);
+                ref.latestPostAt = new Date().getTime();
+            }
+            return;
         }
-        this.indexMap.set(url, { title });
+        this.indexMap.set(url, {
+            title,
+            amount: await this.getPostsAmount(url),
+            latestPostAt: new Date().getTime(),
+        });
         this.saveThreadList();
-        return true;
+        return;
     }
 
     public async getPosts(url: string) {
@@ -92,6 +101,17 @@ export class PommentData {
             });
         });
         return output;
+    }
+
+    public async getPostsAmount(url: string) {
+        const data: IPostQueryResults[] = await fs.readJSON(this.getThreadPath(url), fsOpts);
+        const filtered = data.filter((e) => {
+            if (e.hidden) {
+                return false;
+            }
+            return true;
+        });
+        return filtered.length;
     }
 
     public async getPost(url: string, id: number) {

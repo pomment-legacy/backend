@@ -1,5 +1,5 @@
 import log4js from 'log4js';
-import { IPostQueryResults } from 'pomment-common/dist/interface/post';
+import { IPostQueryResults } from 'pomment-common/src/interface/post';
 import { sanitizeUrl } from '@braintree/sanitize-url';
 import checkSubmit from '../../lib/check_submit';
 import reCAPTCHA from '../../lib/recaptcha';
@@ -60,7 +60,7 @@ const routeSubmit = async (ctx: IContext) => {
     let reCAPTCHAScore: number | null = null;
     setTimeout(async () => {
         logger.info('Adding thread title');
-        ctx.pomment.addThreadTitle(body.url, body.title);
+        ctx.pomment.updateThreadInfo(body.url, body.title);
         if (ctx.userConfig.reCAPTCHA.enabled) {
             logger.info('Verifying user request (reCAPTCHA)');
             if (body.responseKey === null) {

@@ -1,5 +1,5 @@
 import log4js from 'log4js';
-import { IPostQueryResults } from 'pomment-common/dist/interface/post';
+import { IPostQueryResults } from 'pomment-common/src/interface/post';
 import { IAuth } from '../../lib/auth';
 import { IContext } from '../main';
 
@@ -52,7 +52,7 @@ const routeManageSubmit = async (ctx: IContext) => {
     let reCAPTCHAScore: number | null = null;
     setTimeout(async () => {
         logger.info('Adding thread title');
-        ctx.pomment.addThreadTitle(body.url, body.title);
+        ctx.pomment.updateThreadInfo(body.url, body.title);
         logger.info('Handling webhooks');
         const thisParent = await ctx.pomment.getPost(body.url, body.parent);
         const attr = ctx.pomment.getThreadAttribute(body.url);

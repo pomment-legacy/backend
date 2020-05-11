@@ -11,13 +11,13 @@
     "clean": "del-cli dist"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^2.29.0",
-    "@typescript-eslint/parser": "^2.29.0",
+    "@typescript-eslint/eslint-plugin": "^2.31.0",
+    "@typescript-eslint/parser": "^2.31.0",
     "del-cli": "^3.0.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
-    "mocha": "^7.1.1"
+    "mocha": "^7.1.2"
   },
   "dependencies": {
     "@braintree/sanitize-url": "^4.0.1",
@@ -43,8 +43,8 @@
     "log4js": "^6.2.1",
     "minimist": "^1.2.5",
     "nodemailer": "^6.4.6",
-    "nyks": "^5.16.0",
-    "pomment-common": "^3.0.0",
+    "nyks": "^5.16.1",
+    "pomment-common": "^3.0.1",
     "pomment-core": "^2.1.0",
     "request": "^2.88.2",
     "typescript": "^3.8.3"
