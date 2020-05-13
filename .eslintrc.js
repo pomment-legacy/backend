@@ -30,6 +30,7 @@ module.exports = {
     ],
     'no-unused-vars': 'off',
     'no-plusplus': ['error', { 'allowForLoopAfterthoughts': true }],
+    "prefer-destructuring": "off",
   },
   settings: {
     'import/resolver': {

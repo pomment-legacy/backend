@@ -49,7 +49,6 @@ const routeManageSubmit = async (ctx: IContext) => {
         ctx.status = 500;
         return;
     }
-    let reCAPTCHAScore: number | null = null;
     setTimeout(async () => {
         logger.info('Adding thread title');
         ctx.pomment.updateThreadInfo(body.url, body.title);
@@ -63,7 +62,7 @@ const routeManageSubmit = async (ctx: IContext) => {
             event: 'new_comment',
             url: body.url,
             title: attr.title,
-            content: { ...query, reCAPTCHAScore, parentContent: thisParent },
+            content: { ...query, reCAPTCHAScore: null, parentContent: thisParent },
         };
         // TODO: 完成该部分
         // await executeWebhook(globalContext, webhookResult, logger);
