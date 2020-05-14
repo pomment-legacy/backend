@@ -15,9 +15,7 @@ const routeManageThreads = async (ctx: IContext) => {
         ctx.status = 403;
         return;
     }
-    ctx.response.body = {
-        success: true,
-    };
+    ctx.response.body = pomment.getThreadList();
 };
 
 export default routeManageThreads;

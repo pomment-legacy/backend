@@ -25,6 +25,13 @@ export interface IPostEditArgs {
     createdAt?: number;
 }
 
+export interface IThreadListItem {
+    title: string;
+    latestPostAt: number | null;
+    amount: number;
+    url: string;
+}
+
 export class PommentData {
     public static async init(workingDir: string) {
         fs.mkdirpSync(path.join(workingDir, 'threads'));
@@ -54,6 +61,26 @@ export class PommentData {
         return this.indexMap.get(url);
     }
 
+    public getThreadList() {
+        const tempList: IThreadListItem[] = [];
+        this.indexMap.forEach((v, k) => {
+            const tempItem: IThreadListItem = {
+                url: k,
+                ...v,
+            };
+            tempList.push(tempItem);
+        });
+        return tempList.sort((a, b) => {
+            if (a.latestPostAt === null) {
+                return 1;
+            }
+            if (b.latestPostAt === null) {
+                return -1;
+            }
+            return b.latestPostAt - a.latestPostAt;
+        });
+    }
+
     public async updateThreadInfo(url: string, title: string, override = false) {
         if (!override && this.indexMap.has(url)) {
             const ref = this.indexMap.get(url);
@@ -69,7 +96,6 @@ export class PommentData {
             latestPostAt: new Date().getTime(),
         });
         this.saveThreadList();
-        return;
     }
 
     public async getPosts(url: string) {
