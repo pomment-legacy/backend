@@ -129,6 +129,11 @@ export class PommentData {
         return output;
     }
 
+    public async getAllPosts(url: string) {
+        const value = await fs.readJSON(this.getThreadPath(url), fsOpts);
+        return value;
+    }
+
     public async getPostsAmount(url: string) {
         const data: IPostQueryResults[] = await fs.readJSON(this.getThreadPath(url), fsOpts);
         const filtered = data.filter((e) => {
