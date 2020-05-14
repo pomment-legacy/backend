@@ -16,6 +16,9 @@ import routeEdit from './route/edit';
 import routeList from './route/list';
 import routeSubmit from './route/submit';
 import routeManageSubmit from './route/manage-submit';
+import routeManageList from './route/manage-list';
+import routeManageThreads from './route/manage-threads';
+import routeManageEditAttr from './route/manage-edit-attr';
 
 export type IContext =
     Koa.ParameterizedContext<{}, IPommentContext & Router.IRouterParamContext<{}, IPommentContext>>;
@@ -35,6 +38,9 @@ function bootServer(entry: string) {
     router.post('/v2/edit', routeEdit);
     router.post('/v2/delete', routeDelete);
     router.post('/v2/manage/submit', routeManageSubmit);
+    router.post('/v2/manage/list', routeManageList);
+    router.post('/v2/manage/threads', routeManageThreads);
+    router.post('/v2/manage/edit-attr', routeManageEditAttr);
     // router.post('/auth-test', routeAuthTest);
 
     app.use(kLogger());
