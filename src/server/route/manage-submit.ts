@@ -1,7 +1,9 @@
 import log4js from 'log4js';
 import { IPostQueryResults } from 'pomment-common/src/interface/post';
+import { IWebhookRequest, EventName } from 'pomment-common/src/interface/webhook';
 import { IAuth } from '../../lib/auth';
 import { IContext } from '../main';
+import executeWebhook from '../webhook/execute';
 
 export interface IManageSubmitBody {
     auth: IAuth;
@@ -58,14 +60,13 @@ const routeManageSubmit = async (ctx: IContext) => {
         if (typeof attr === 'undefined') {
             throw new Error('Thread item not found (possibly some failure happened during storage)');
         }
-        const webhookResult = {
-            event: 'new_comment',
+        const webhookResult: IWebhookRequest = {
+            event: EventName.postAdded,
             url: body.url,
-            title: attr.title,
-            content: { ...query, reCAPTCHAScore: null, parentContent: thisParent },
+            thread: attr,
+            post: query,
         };
-        // TODO: 完成该部分
-        // await executeWebhook(globalContext, webhookResult, logger);
+        executeWebhook(ctx.userConfig.webhook.targets, webhookResult, logger);
         if (thisParent && thisParent.receiveEmail) {
             logger.info('Sending notify (if enabled)');
             // TODO: 完成该部分

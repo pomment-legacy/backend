@@ -2,8 +2,9 @@
 /* eslint-disable no-await-in-loop */
 import axios from 'axios';
 import { Logger } from 'log4js';
+import { IWebhookRequest } from 'pomment-common/src/interface/webhook';
 
-const executeWebhook = async (list: string[], data: any, logger: Logger) => {
+const executeWebhook = async (list: string[], data: IWebhookRequest, logger: Logger) => {
     for (let i = 0; i < list.length; i++) {
         logger.info(`Performing webhook request (${i + 1} / ${list.length}): ${list[i]}`);
         try {

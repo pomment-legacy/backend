@@ -1,9 +1,11 @@
 import log4js from 'log4js';
 import { IPostQueryResults } from 'pomment-common/src/interface/post';
 import { sanitizeUrl } from '@braintree/sanitize-url';
+import { IWebhookRequest, EventName } from 'pomment-common/src/interface/webhook';
 import checkSubmit from '../../lib/check_submit';
 import reCAPTCHA from '../../lib/recaptcha';
 import { IContext } from '../main';
+import executeWebhook from '../webhook/execute';
 
 export interface ISubmitBody {
     name: string | null;
@@ -92,14 +94,13 @@ const routeSubmit = async (ctx: IContext) => {
         if (typeof attr === 'undefined') {
             throw new Error('Thread item not found (possibly some failure happened during storage)');
         }
-        const webhookResult = {
-            event: 'new_comment',
+        const webhookResult: IWebhookRequest = {
+            event: EventName.postAdded,
             url: body.url,
-            title: attr.title,
-            content: { ...query, reCAPTCHAScore, parentContent: thisParent },
+            thread: attr,
+            post: query,
         };
-        // TODO: 完成该部分
-        // await executeWebhook(globalContext, webhookResult, logger);
+        executeWebhook(ctx.userConfig.webhook.targets, webhookResult, logger);
         if (thisParent && thisParent.receiveEmail) {
             logger.info('Sending notify (if enabled)');
             // TODO: 完成该部分

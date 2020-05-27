@@ -21,8 +21,10 @@ export interface IConfig {
         secretKey: string;
         minimumScore: number;
     };
-    callback: [];
-    antiSpamProvider: boolean;
+    webhook: {
+        enabled: boolean;
+        targets: string[];
+    }
 }
 
 export enum NotifyType {
