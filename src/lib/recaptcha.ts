@@ -1,5 +1,5 @@
 import { Logger } from 'log4js';
-import request from 'request';
+import axios from 'axios';
 import { IConfig } from '../interface/config';
 
 //  https://developers.google.com/recaptcha/docs/v3
@@ -15,23 +15,16 @@ interface IResult {
 
 const reCAPTCHA = async (config: IConfig, sec: string, res: string, logger: Logger) => {
     try {
-        const result: IResult = await new Promise((resolve, reject) => {
-            request({
-                url: 'https://www.recaptcha.net/recaptcha/api/siteverify',
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'User-Agent': 'Pomment (reCAPTCHA Handler)',
-                },
-                body: `secret=${sec}&response=${res}`,
-            }, (e, response, content) => {
-                if (e) {
-                    reject(e);
-                } else {
-                    resolve(JSON.parse(content));
-                }
-            });
+        const params = new URLSearchParams();
+        params.append('secret', sec);
+        params.append('response', res);
+        const request = await axios.post('https://www.recaptcha.net/recaptcha/api/siteverify', params, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'User-Agent': 'Pomment (reCAPTCHA Handler)',
+            },
         });
+        const result: IResult = request.data;
         const respKeys = Object.entries(result);
         respKeys.forEach((e) => {
             logger.info(`[reCAPTCHA] ${e[0]}: ${e[1]}`);

@@ -46,7 +46,6 @@
     "nyks": "^5.16.1",
     "pomment-common": "^3.0.2",
     "pomment-core": "^2.1.0",
-    "request": "^2.88.2",
     "typescript": "^3.9.3"
   },
   "bin": {
