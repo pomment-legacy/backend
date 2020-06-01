@@ -23,10 +23,14 @@ export interface IConfig {
     };
     webhook: {
         enabled: boolean;
-        targets: string[];
+        targets: IWebhookItem[];
     }
 }
 
+export interface IWebhookItem {
+    url: string;
+    token: string | null;
+}
 export enum NotifyType {
     disabled = 1,
     smtp = 2,

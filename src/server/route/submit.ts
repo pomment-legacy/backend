@@ -96,9 +96,11 @@ const routeSubmit = async (ctx: IContext) => {
         }
         const webhookResult: IWebhookRequest = {
             event: EventName.postAdded,
+            auth: null,
             url: body.url,
             thread: attr,
             post: query,
+            parent: thisParent,
         };
         executeWebhook(ctx.userConfig.webhook.targets, webhookResult, logger);
         if (thisParent && thisParent.receiveEmail) {

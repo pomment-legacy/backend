@@ -62,7 +62,7 @@ const routeManageSubmit = async (ctx: IContext) => {
         }
         const webhookResult: IWebhookRequest = {
             event: EventName.postAdded,
-            token: null,
+            auth: null,
             url: body.url,
             thread: attr,
             post: query,
