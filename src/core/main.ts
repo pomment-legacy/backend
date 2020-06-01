@@ -88,6 +88,7 @@ export class PommentData {
                 ref.amount = await this.getPostsAmount(url);
                 ref.latestPostAt = new Date().getTime();
             }
+            this.saveThreadList();
             return;
         }
         this.indexMap.set(url, {
