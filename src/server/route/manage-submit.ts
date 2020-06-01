@@ -1,7 +1,7 @@
 import log4js from 'log4js';
-import { IPostQueryResults } from 'pomment-common/src/interface/post';
-import { IWebhookRequest, EventName } from 'pomment-common/src/interface/webhook';
-import { IAuth } from '../../lib/auth';
+import { IPostQueryResults } from 'pomment-common/dist/interface/post';
+import { IWebhookRequest, EventName } from 'pomment-common/dist/interface/webhook';
+import { IAuth } from 'pomment-common/dist/auth';
 import { IContext } from '../main';
 import executeWebhook from '../webhook/execute';
 
@@ -62,9 +62,11 @@ const routeManageSubmit = async (ctx: IContext) => {
         }
         const webhookResult: IWebhookRequest = {
             event: EventName.postAdded,
+            token: null,
             url: body.url,
             thread: attr,
             post: query,
+            parent: thisParent,
         };
         executeWebhook(ctx.userConfig.webhook.targets, webhookResult, logger);
         if (thisParent && thisParent.receiveEmail) {

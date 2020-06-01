@@ -42,9 +42,9 @@
     "koa-router": "^8.0.8",
     "log4js": "^6.3.0",
     "minimist": "^1.2.5",
-    "nodemailer": "^6.4.6",
+    "nodemailer": "^6.4.8",
     "nyks": "^5.16.1",
-    "pomment-common": "^3.0.2",
+    "pomment-common": "^3.1.0",
     "pomment-core": "^2.1.0",
     "typescript": "^3.9.3"
   },

@@ -1,7 +1,7 @@
 import log4js from 'log4js';
-import { IPostQueryResults } from 'pomment-common/src/interface/post';
+import { IPostQueryResults } from 'pomment-common/dist/interface/post';
 import { sanitizeUrl } from '@braintree/sanitize-url';
-import { IWebhookRequest, EventName } from 'pomment-common/src/interface/webhook';
+import { IWebhookRequest, EventName } from 'pomment-common/dist/interface/webhook';
 import checkSubmit from '../../lib/check_submit';
 import reCAPTCHA from '../../lib/recaptcha';
 import { IContext } from '../main';

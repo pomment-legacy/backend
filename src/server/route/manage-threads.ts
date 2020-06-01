@@ -1,5 +1,5 @@
 import log4js from 'log4js';
-import { IAuth } from '../../lib/auth';
+import { IAuth } from 'pomment-common/dist/auth';
 import { IContext } from '../main';
 
 export interface IManageThreadsBody {

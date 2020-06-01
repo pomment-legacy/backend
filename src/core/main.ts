@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import fs from 'fs-extra';
 import path from 'path';
-import { IPostItem, IPostQueryResults, IThreadItem } from 'pomment-common/src/interface/post';
+import { IPostItem, IPostQueryResults, IThreadItem } from 'pomment-common/dist/interface/post';
 import SHA from '../lib/sha';
 import wipeInvalid from '../lib/wipe_invalid';
 
