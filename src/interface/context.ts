@@ -7,4 +7,5 @@ export interface IPommentContext {
     pomment: PommentData;
     logLevel: string;
     userAuth: Auth;
+    userPath: string;
 }

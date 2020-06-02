@@ -1,12 +1,14 @@
 export interface IConfig {
     apiHost: string;
     apiPort: number;
+    apiURL: string;
     siteAdmin: {
         name: string;
         email: string;
         password: string;
     };
     guestNotify: {
+        title: string;
         mode: NotifyType;
         smtpSender: string;
         smtpHost: string;
@@ -16,7 +18,6 @@ export interface IConfig {
         smtpSecure: boolean;
         mailgunAPIKey: string;
         mailgunDomain: string;
-        title: string;
     };
     reCAPTCHA: {
         enabled: boolean;
@@ -33,6 +34,7 @@ export interface IWebhookItem {
     url: string;
     token: string | null;
 }
+
 export enum NotifyType {
     smtp = 'smtp',
     mailgun = 'mailgun',

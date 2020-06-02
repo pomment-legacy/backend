@@ -49,6 +49,7 @@ function bootServer(entry: string) {
         ctx.pomment = pomment;
         ctx.logLevel = logLevel;
         ctx.userAuth = auth;
+        ctx.userPath = entry;
         return next();
     });
     app.use(body());
