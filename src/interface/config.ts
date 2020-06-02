@@ -14,6 +14,8 @@ export interface IConfig {
         smtpUsername: string;
         smtpPassword: string;
         smtpSecure: boolean;
+        mailgunAPIKey: string;
+        mailgunDomain: string;
         title: string;
     };
     reCAPTCHA: {
@@ -32,7 +34,6 @@ export interface IWebhookItem {
     token: string | null;
 }
 export enum NotifyType {
-    disabled = 1,
-    smtp = 2,
-    mailgun = 3,
+    smtp = 'smtp',
+    mailgun = 'mailgun',
 }
