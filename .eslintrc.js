@@ -1,17 +1,42 @@
 module.exports = {
-    "extends": "airbnb-base",
-    "rules": {
-        "no-underscore-dangle": ["error", {
-            "allowAfterThis": true,
-        }],
-        "indent": ["error", 4, {
-            "SwitchCase": 1
-        }],
-        "prefer-destructuring": "off",
-        "max-len": "off",
-        "no-console": "off",
+  env: {
+    es6: true,
+    node: true,
+  },
+  extends: [
+    'airbnb-base',
+  ],
+  globals: {
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly',
+  },
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaVersion: 2018,
+    sourceType: 'module',
+  },
+  plugins: [
+    '@typescript-eslint',
+  ],
+  rules: {
+    indent: ['error', 4],
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        'js': 'never',
+        'ts': 'never',
+      }
+    ],
+    'no-unused-vars': 'off',
+    'no-plusplus': ['error', { 'allowForLoopAfterthoughts': true }],
+    "prefer-destructuring": "off",
+  },
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.ts'],
+      },
     },
-    "env": {
-        "node": true
-    },
+  },
 };

@@ -103,3 +103,5 @@ Temporary Items
 .idea/
 .temp/
 out/
+dist/
+temp-entry/
