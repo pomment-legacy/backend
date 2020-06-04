@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+
+const argv = require('minimist')(process.argv.slice(2));
+const path = require('path');
+
+if (!argv._[0] || argv.h || argv.help || argv._[0] === 'help') {
+    process.stdout.write('Usage: pomment-init <path>\n');
+    process.exit(1);
+}
+

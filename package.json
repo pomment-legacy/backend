@@ -6,7 +6,7 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "test": "del-cli ./.temp && mocha",
-    "build": "tsc --build tsconfig.json",
+    "build": "tsc -b --verbose tsconfig.json",
     "lint": "eslint -c ./.eslintrc.js 'src/**/*.ts'",
     "clean": "del-cli dist"
   },
