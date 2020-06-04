@@ -6,6 +6,7 @@ import checkSubmit from '../../lib/check_submit';
 import reCAPTCHA from '../../lib/recaptcha';
 import { IContext } from '../main';
 import executeWebhook from '../webhook/execute';
+import sendNotify from '../notify/main';
 
 export interface ISubmitBody {
     name: string | null;
@@ -22,7 +23,7 @@ export interface ISubmitBody {
 const routeSubmit = async (ctx: IContext) => {
     const logger = log4js.getLogger('Server: /v2/submit');
     logger.level = ctx.logLevel;
-    const { body } = ctx.request;
+    const body: ISubmitBody = ctx.request.body;
     checkSubmit(body);
     let query: IPostQueryResults;
     try {
@@ -105,8 +106,7 @@ const routeSubmit = async (ctx: IContext) => {
         executeWebhook(ctx.userConfig.webhook.targets, webhookResult, logger);
         if (thisParent && thisParent.receiveEmail) {
             logger.info('Sending notify (if enabled)');
-            // TODO: 完成该部分
-            // await sendNotify(globalContext, logger, body.url, title, thisParent, query);
+            await sendNotify(ctx, body.url, attr.title, query, thisParent);
         }
         logger.info('Background task finished');
     }, 0);

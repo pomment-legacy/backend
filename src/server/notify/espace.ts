@@ -1,6 +1,6 @@
 const needEscape = /["'&<>\r\n\x20\xA0]/;
 
-const escapeHTML = (str: string, linebreak = false) => {
+const escapeHTML = (str: any, linebreak = false) => {
     const targetStr = String(str);
     if (!needEscape.exec(targetStr)) {
         return targetStr;

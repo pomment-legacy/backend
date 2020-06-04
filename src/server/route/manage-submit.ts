@@ -4,6 +4,7 @@ import { IWebhookRequest, EventName } from 'pomment-common/dist/interface/webhoo
 import { IAuth } from 'pomment-common/dist/auth';
 import { IContext } from '../main';
 import executeWebhook from '../webhook/execute';
+import sendNotify from '../notify/main';
 
 export interface IManageSubmitBody {
     auth: IAuth;
@@ -71,8 +72,7 @@ const routeManageSubmit = async (ctx: IContext) => {
         executeWebhook(ctx.userConfig.webhook.targets, webhookResult, logger);
         if (thisParent && thisParent.receiveEmail) {
             logger.info('Sending notify (if enabled)');
-            // TODO: 完成该部分
-            // await sendNotify(globalContext, logger, body.url, title, thisParent, query);
+            await sendNotify(ctx, body.url, attr.title, query, thisParent);
         }
         logger.info('Background task finished');
     }, 0);
