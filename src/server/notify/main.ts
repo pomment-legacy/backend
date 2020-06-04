@@ -46,23 +46,27 @@ const sendNotify = async (
         mailData = mailData.replace(new RegExp(e.from, 'g'), escapeHTML(e.to, e.line));
         mailTitle = mailData.replace(new RegExp(e.from, 'g'), e.to);
     });
-    switch (config.guestNotify.mode) {
-    case NotifyType.smtp: {
-        // smtp
-        logger.info('Sending through SMTP ...');
-        await sendBySMTP(ctx, parent.email, mailTitle, mailData);
-        break;
-    }
-    case NotifyType.mailgun: {
-        // mailgun
-        logger.info('Sending through Mailgun ...');
-        await sendByMailgun(ctx, parent.email, mailTitle, mailData);
-        break;
-    }
-    default: {
-        logger.info('No vaild send mode set!');
-        break;
-    }
+    try {
+        switch (config.guestNotify.mode) {
+        case NotifyType.smtp: {
+            // smtp
+            logger.info('Sending through SMTP ...');
+            await sendBySMTP(ctx, parent.email, mailTitle, mailData);
+            break;
+        }
+        case NotifyType.mailgun: {
+            // mailgun
+            logger.info('Sending through Mailgun ...');
+            await sendByMailgun(ctx, parent.email, mailTitle, mailData);
+            break;
+        }
+        default: {
+            logger.info('No vaild send mode set!');
+            break;
+        }
+        }
+    } catch (e) {
+        logger.error(`Unable to send notify: ${e}`);
     }
 };
 
