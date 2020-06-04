@@ -57,6 +57,15 @@ export class PommentData {
         return path.join(this.workingDir, position, newName);
     }
 
+    public static getThreadFileName(url: string, ext = 'json') {
+        const newURL = encodeURIComponent(url).replace(/\*/g, '%2A');
+        let newName = `${newURL}.${ext}`;
+        if (newName.length > 255) {
+            newName = newName.slice(newName.length - 255);
+        }
+        return newName;
+    }
+
     public getThreadAttribute(url: string) {
         return this.indexMap.get(url);
     }
