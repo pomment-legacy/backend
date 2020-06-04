@@ -48,7 +48,6 @@
     "minimist": "^1.2.5",
     "nodemailer": "^6.4.8",
     "pomment-common": "^3.1.2",
-    "pomment-core": "^2.1.0",
     "typescript": "^3.9.3"
   },
   "bin": {
