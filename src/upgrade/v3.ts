@@ -13,11 +13,24 @@ interface IOldAttr {
     }
 }
 
+interface IStatus {
+    dataVer: number;
+}
+
 function upgrade3(entry: string) {
     const logger = log4js.getLogger('Main');
     const logLevel = process.env.PMNT_LOG_LEVEL || 'info';
     logger.level = logLevel;
 
+    const status: IStatus = fs.readJSONSync(path.join(entry, 'status.json'), fsOpts);
+    if (status.dataVer === 3) {
+        logger.error('You are already upgraded to v3 data format.');
+        return;
+    }
+    if (status.dataVer !== 2) {
+        logger.error('Unsupported data format version.');
+        return;
+    }
     logger.info('Renaming mail template file');
     fs.moveSync(path.join(entry, 'mail_notify.html'), path.join(entry, 'mail_template.html'));
 
