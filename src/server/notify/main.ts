@@ -25,7 +25,7 @@ const sendNotify = async (
     const config = ctx.userConfig;
     const logger = log4js.getLogger('Notify');
     logger.level = ctx.logLevel;
-    if (!config.guestNotify) {
+    if (!config.guestNotify || config.guestNotify.mode === NotifyType.none) {
         logger.info('Notify mode not set!');
         return;
     }

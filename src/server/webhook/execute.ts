@@ -10,6 +10,10 @@ import { IAuth } from 'pomment-common/dist/auth';
 import { IWebhookItem } from '../../interface/config';
 
 const executeWebhook = async (list: IWebhookItem[], data: IWebhookRequest, logger: Logger) => {
+    if (!list) {
+        logger.debug('No webhooks!');
+        return;
+    }
     for (let i = 0; i < list.length; i++) {
         logger.info(`Performing webhook request (${i + 1} / ${list.length}): ${list[i].url}`);
         try {

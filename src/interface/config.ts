@@ -38,4 +38,5 @@ export interface IWebhookItem {
 export enum NotifyType {
     smtp = 'smtp',
     mailgun = 'mailgun',
+    none = 'none'
 }
