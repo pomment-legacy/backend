@@ -58,6 +58,9 @@ function upgrade3(entry: string) {
         data.set(e.url, item);
     });
     fs.writeJSONSync(path.join(entry, 'index.json'), [...data], fsOpts);
+
+    status.dataVer = 3;
+    fs.writeJSONSync(path.join(entry, 'status.json'), status, fsOpts);
 }
 
 export default upgrade3;
