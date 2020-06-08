@@ -33,12 +33,6 @@ export interface IThreadListItem {
 }
 
 export class PommentData {
-    public static async init(workingDir: string) {
-        fs.mkdirpSync(path.join(workingDir, 'threads'));
-        fs.writeFileSync(path.join(workingDir, 'index.json'), '[]\n', fsOpts);
-        return new PommentData(workingDir);
-    }
-
     public workingDir: string;
 
     private indexMap: Map<string, IThreadItem>;
