@@ -18,7 +18,7 @@ interface IStatus {
 }
 
 function upgrade3(entry: string) {
-    const logger = log4js.getLogger('Main');
+    const logger = log4js.getLogger('Upgrader');
     const logLevel = process.env.PMNT_LOG_LEVEL || 'info';
     logger.level = logLevel;
 
