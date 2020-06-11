@@ -9,8 +9,10 @@ function init(entry: string) {
 
     if (fs.existsSync(entry) && fs.readdirSync(entry).length > 0) {
         logger.error('Target directory is not empty.');
+        return;
     }
     fs.copySync(path.resolve(__dirname, '../../assets/template'), entry);
+    logger.info(`Data directory created in ${entry}`);
 }
 
 export default init;
