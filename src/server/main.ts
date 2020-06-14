@@ -33,15 +33,30 @@ function bootServer(entry: string) {
     const pomment = new PommentData(entry);
     const auth = new Auth(config.siteAdmin.password);
 
-    router.post('/v2/list', routeList);
-    router.post('/v2/submit', routeSubmit);
-    router.post('/v2/edit', routeEdit);
-    router.post('/v2/delete', routeDelete);
-    router.post('/v2/manage/submit', routeManageSubmit);
-    router.post('/v2/manage/list', routeManageList);
-    router.post('/v2/manage/threads', routeManageThreads);
-    router.post('/v2/manage/edit-attr', routeManageEditAttr);
+    router.post('/v3/list', routeList);
+    router.post('/v3/submit', routeSubmit);
+    router.post('/v3/edit', routeEdit);
+    router.post('/v3/delete', routeDelete);
+    router.post('/v3/manage/submit', routeManageSubmit);
+    router.post('/v3/manage/list', routeManageList);
+    router.post('/v3/manage/threads', routeManageThreads);
+    router.post('/v3/manage/edit-attr', routeManageEditAttr);
     // router.post('/auth-test', routeAuthTest);
+
+    if (process.env.PMNT_LOG_LEVEL === 'debug') {
+        router.options('*', (ctx) => {
+            ctx.status = 200;
+            return true;
+        });
+        app.use((ctx, next) => {
+            ctx.set('Access-Control-Allow-Origin', '*');
+            ctx.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+            ctx.set('Access-Control-Max-Age', '3600');
+            ctx.set('Access-Control-Allow-Headers', 'x-requested-with, Authorization, Content-Type, Accept');
+            ctx.set('Access-Control-Allow-Credentials', 'true');
+            return next();
+        });
+    }
 
     app.use(kLogger());
     app.use((ctx, next) => {

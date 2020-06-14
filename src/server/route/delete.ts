@@ -9,7 +9,7 @@ export interface IDeleteBody {
 }
 
 const routeDelete = async (ctx: IContext) => {
-    const logger = log4js.getLogger('Server: /v2/delete');
+    const logger = log4js.getLogger('Server: /v3/delete');
     logger.level = ctx.logLevel;
     const { body } = ctx.request;
     await ctx.pomment.editPostUser(body.url, body.id, '', body.editKey, true);

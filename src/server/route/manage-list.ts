@@ -8,7 +8,7 @@ export interface IManageListBody {
 }
 
 const routeManageList = async (ctx: IContext) => {
-    const logger = log4js.getLogger('Server: /v2/manage/list');
+    const logger = log4js.getLogger('Server: /v3/manage/list');
     logger.level = ctx.logLevel;
     const body: IManageListBody = ctx.request.body;
     const { pomment, userAuth } = ctx;

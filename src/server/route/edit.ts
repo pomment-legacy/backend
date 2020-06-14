@@ -11,7 +11,7 @@ export interface IEditBody {
 }
 
 const routeEdit = async (ctx: IContext) => {
-    const logger = log4js.getLogger('Server: /v2/edit');
+    const logger = log4js.getLogger('Server: /v3/edit');
     logger.level = ctx.logLevel;
     const { body } = ctx.request;
     let reCAPTCHAScore: number | null = null;

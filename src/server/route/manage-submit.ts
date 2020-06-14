@@ -15,7 +15,7 @@ export interface IManageSubmitBody {
 }
 
 const routeManageSubmit = async (ctx: IContext) => {
-    const logger = log4js.getLogger('Server: /v2/manage/submit');
+    const logger = log4js.getLogger('Server: /v3/manage/submit');
     logger.level = ctx.logLevel;
     const body: IManageSubmitBody = ctx.request.body;
     let query: IPostQueryResults;

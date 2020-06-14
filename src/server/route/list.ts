@@ -15,7 +15,7 @@ export interface IListBody {
  * @param ctx 上下文
  */
 const routeList = async (ctx: IContext) => {
-    const logger = log4js.getLogger('Server: /v2/list');
+    const logger = log4js.getLogger('Server: /v3/list');
     logger.level = ctx.logLevel;
     const { body } = ctx.request;
     const { pomment } = ctx;

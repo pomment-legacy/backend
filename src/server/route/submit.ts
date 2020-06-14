@@ -21,7 +21,7 @@ export interface ISubmitBody {
 }
 
 const routeSubmit = async (ctx: IContext) => {
-    const logger = log4js.getLogger('Server: /v2/submit');
+    const logger = log4js.getLogger('Server: /v3/submit');
     logger.level = ctx.logLevel;
     const body: ISubmitBody = ctx.request.body;
     checkSubmit(body);

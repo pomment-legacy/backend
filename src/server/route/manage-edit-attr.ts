@@ -14,7 +14,7 @@ export interface IManageEditAttrBody {
 }
 
 const routeManageEditAttr = async (ctx: IContext) => {
-    const logger = log4js.getLogger('Server: /v2/manage/edit-attr');
+    const logger = log4js.getLogger('Server: /v3/manage/edit-attr');
     logger.level = ctx.logLevel;
     const body: IManageEditAttrBody = ctx.request.body;
     const { pomment, userAuth } = ctx;

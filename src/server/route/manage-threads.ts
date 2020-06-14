@@ -7,7 +7,7 @@ export interface IManageThreadsBody {
 }
 
 const routeManageThreads = async (ctx: IContext) => {
-    const logger = log4js.getLogger('Server: /v2/manage/threads');
+    const logger = log4js.getLogger('Server: /v3/manage/threads');
     logger.level = ctx.logLevel;
     const body: IManageThreadsBody = ctx.request.body;
     const { pomment, userAuth } = ctx;
