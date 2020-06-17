@@ -16,7 +16,11 @@ const routeManageList = async (ctx: IContext) => {
         ctx.status = 403;
         return;
     }
-    ctx.response.body = await pomment.getAllPosts(body.url);
+    ctx.response.body = {
+        url: body.url,
+        locked: pomment.getThreadLock(body.url),
+        content: await pomment.getAllPosts(body.url),
+    };
 };
 
 export default routeManageList;
