@@ -18,6 +18,7 @@ const routeManageList = async (ctx: IContext) => {
     }
     ctx.response.body = {
         url: body.url,
+        attr: pomment.getThreadAttribute(body.url),
         locked: pomment.getThreadLock(body.url),
         content: await pomment.getAllPosts(body.url),
     };
