@@ -19,6 +19,7 @@ import routeManageSubmit from './route/manage-submit';
 import routeManageList from './route/manage-list';
 import routeManageThreads from './route/manage-threads';
 import routeManageEditAttr from './route/manage-edit-attr';
+import routeManageLock from './route/manage-lock';
 
 export type IContext =
     Koa.ParameterizedContext<{}, IPommentContext & Router.IRouterParamContext<{}, IPommentContext>>;
@@ -27,7 +28,14 @@ function bootServer(entry: string) {
     const logger = log4js.getLogger('Main');
     const logLevel = process.env.PMNT_LOG_LEVEL || 'info';
     const configPath = path.join(entry, 'config.yaml');
-    const config: IConfig = yaml.safeLoad(fs.readFileSync(configPath, { encoding: 'utf8' }));
+
+    const tryLoad: any = yaml.safeLoad(fs.readFileSync(configPath, { encoding: 'utf8' }));
+    if (!tryLoad || typeof tryLoad !== 'object') {
+        logger.fatal('Unable to parse config file');
+        return;
+    }
+
+    const config: IConfig = tryLoad;
     const app = new Koa<{}, IPommentContext>();
     const router = new Router<{}, IPommentContext>();
     const pomment = new PommentData(entry);
@@ -41,6 +49,7 @@ function bootServer(entry: string) {
     router.post('/v3/manage/list', routeManageList);
     router.post('/v3/manage/threads', routeManageThreads);
     router.post('/v3/manage/edit-attr', routeManageEditAttr);
+    router.post('/v3/manage/lock', routeManageLock);
     // router.post('/auth-test', routeAuthTest);
 
     if (process.env.PMNT_LOG_LEVEL === 'debug') {
