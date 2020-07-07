@@ -20,6 +20,7 @@ import routeManageList from './route/manage-list';
 import routeManageThreads from './route/manage-threads';
 import routeManageEditAttr from './route/manage-edit-attr';
 import routeManageLock from './route/manage-lock';
+import routeManageEditTitle from './route/manage-edit-title';
 
 export type IContext =
     Koa.ParameterizedContext<{}, IPommentContext & Router.IRouterParamContext<{}, IPommentContext>>;
@@ -50,6 +51,7 @@ function bootServer(entry: string) {
     router.post('/v3/manage/threads', routeManageThreads);
     router.post('/v3/manage/edit-attr', routeManageEditAttr);
     router.post('/v3/manage/lock', routeManageLock);
+    router.post('/v3/manage/edit-title', routeManageEditTitle);
     // router.post('/auth-test', routeAuthTest);
 
     if (process.env.PMNT_LOG_LEVEL === 'debug') {
