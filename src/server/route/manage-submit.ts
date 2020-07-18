@@ -40,13 +40,7 @@ const routeManageSubmit = async (ctx: IContext) => {
             null,
             { verifyLocked: true },
         );
-        const {
-            id, name, email, website, parent, content, editKey, createdAt, updatedAt,
-        } = query;
-        const userResult = {
-            id, name, email, website, parent, content, editKey, createdAt, updatedAt,
-        };
-        ctx.response.body = userResult;
+        ctx.response.body = query;
     } catch (e) {
         logger.error(e.toString());
         ctx.status = 500;
