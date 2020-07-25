@@ -154,9 +154,6 @@ export class PommentData {
         while (content.length > 0) {
             const temp = content.pop();
             if (typeof temp !== 'undefined' && temp.id === id) {
-                if (temp.hidden) {
-                    return null;
-                }
                 return temp;
             }
         }

@@ -17,7 +17,7 @@ const routeManagePost = async (ctx: IContext) => {
         ctx.status = 403;
         return;
     }
-    ctx.response.body = pomment.getPost(body.url, body.id);
+    ctx.response.body = await pomment.getPost(body.url, body.id);
 };
 
 export default routeManagePost;
