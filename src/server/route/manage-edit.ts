@@ -10,11 +10,12 @@ export interface IManageEditAttrBody {
     email: string;
     website: string;
     avatar: string;
+    content: string;
     hidden: boolean;
 }
 
-const routeManageEditAttr = async (ctx: IContext) => {
-    const logger = log4js.getLogger('Server: /v3/manage/edit-attr');
+const routeManageEdit = async (ctx: IContext) => {
+    const logger = log4js.getLogger('Server: /v3/manage/edit');
     logger.level = ctx.logLevel;
     const body: IManageEditAttrBody = ctx.request.body;
     const { pomment, userAuth } = ctx;
@@ -27,9 +28,10 @@ const routeManageEditAttr = async (ctx: IContext) => {
         email: body.email,
         website: body.website,
         avatar: body.avatar,
+        content: body.content,
         hidden: body.hidden,
     });
     ctx.response.body = '';
 };
 
-export default routeManageEditAttr;
+export default routeManageEdit;

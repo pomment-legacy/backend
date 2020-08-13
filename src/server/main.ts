@@ -18,7 +18,7 @@ import routeSubmit from './route/submit';
 import routeManageSubmit from './route/manage-submit';
 import routeManageList from './route/manage-list';
 import routeManageThreads from './route/manage-threads';
-import routeManageEditAttr from './route/manage-edit-attr';
+import routeManageEdit from './route/manage-edit';
 import routeManageLock from './route/manage-lock';
 import routeManageEditTitle from './route/manage-edit-title';
 import routeManagePost from './route/manage-post';
@@ -50,7 +50,7 @@ function bootServer(entry: string) {
     router.post('/v3/manage/submit', routeManageSubmit);
     router.post('/v3/manage/list', routeManageList);
     router.post('/v3/manage/threads', routeManageThreads);
-    router.post('/v3/manage/edit-attr', routeManageEditAttr);
+    router.post('/v3/manage/edit', routeManageEdit);
     router.post('/v3/manage/lock', routeManageLock);
     router.post('/v3/manage/edit-title', routeManageEditTitle);
     router.post('/v3/manage/post', routeManagePost);
