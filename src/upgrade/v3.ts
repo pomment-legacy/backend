@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import fs from 'fs-extra';
 import path from 'path';
 import log4js from 'log4js';
@@ -34,7 +35,7 @@ function upgrade3(entry: string) {
     logger.info('Renaming mail template file');
     fs.moveSync(path.join(entry, 'mail_notify.html'), path.join(entry, 'mail_template.html'));
 
-    logger.info('Upgrading index.json to v3 format');
+    logger.info('Upgrading thread data to v3 format');
     const dataOld: IOldAttr[] = fs.readJSONSync(path.join(entry, 'index.json'), fsOpts);
     const data: Map<string, IThreadItem> = new Map();
     dataOld.forEach((e) => {
@@ -49,7 +50,11 @@ function upgrade3(entry: string) {
                     latestPostAt = f.createdAt;
                 }
             }
+            if (f.rating !== null && Number.isNaN(Number(f.rating))) {
+                f.rating = null;
+            }
         });
+        fs.writeJSONSync(path.join(entry, 'threads', threadPath), thread, fsOpts);
         const item: IThreadItem = {
             title: e.attributes.title,
             latestPostAt,
