@@ -6,7 +6,7 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "test": "del-cli ./.temp && mocha",
-    "build": "tsc -b --verbose tsconfig.json",
+    "build": "tsc -b tsconfig.json",
     "lint": "eslint -c ./.eslintrc.js 'src/**/*.ts'",
     "clean": "del-cli dist"
   },
@@ -48,7 +48,6 @@
     "mailgun-js": "^0.22.0",
     "minimist": "^1.2.5",
     "nodemailer": "^6.4.16",
-    "pomment-common": "^3.1.3",
     "typescript": "^4.0.5",
     "uuid": "^8.3.1"
   },

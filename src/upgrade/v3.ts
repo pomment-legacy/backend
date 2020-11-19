@@ -2,7 +2,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import log4js from 'log4js';
-import { IThreadItem, IPostQueryResults } from 'pomment-common/dist/interface/post';
+import { IThreadItem, IPostQueryResults } from '../interface/post';
 import { PommentData } from '../core/main';
 
 const fsOpts = { encoding: 'utf8' };

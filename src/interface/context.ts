@@ -1,4 +1,4 @@
-import { Auth } from 'pomment-common/dist/auth';
+import { Auth } from '../lib/auth';
 import { PommentData } from '../core/main';
 import { IConfig } from './config';
 

@@ -7,7 +7,7 @@ import Router from 'koa-router';
 import log4js from 'log4js';
 import path from 'path';
 import yaml from 'js-yaml';
-import { Auth } from 'pomment-common/dist/auth';
+import { Auth } from '../lib/auth';
 import { PommentData } from '../core/main';
 import { IConfig } from '../interface/config';
 import { IPommentContext } from '../interface/context';

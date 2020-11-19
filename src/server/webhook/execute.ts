@@ -5,7 +5,7 @@
 import axios from 'axios';
 import crypto from 'crypto';
 import { Logger } from 'log4js';
-import { IWebhookRequest } from 'pomment-common/dist/interface/webhook';
+import { IWebhookRequest } from '../../interface/webhook';
 import { IAuth } from '../../lib/auth';
 import { IWebhookItem } from '../../interface/config';
 

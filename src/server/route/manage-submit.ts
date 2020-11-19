@@ -1,6 +1,6 @@
 import log4js from 'log4js';
-import { IPostQueryResults } from 'pomment-common/dist/interface/post';
-import { IWebhookRequest, EventName } from 'pomment-common/dist/interface/webhook';
+import { IPostQueryResults } from '../../interface/post';
+import { IWebhookRequest, EventName } from '../../interface/webhook';
 import { IAuth } from '../../lib/auth';
 import { IContext } from '../main';
 import executeWebhook from '../webhook/execute';
