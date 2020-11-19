@@ -6,7 +6,7 @@ import axios from 'axios';
 import crypto from 'crypto';
 import { Logger } from 'log4js';
 import { IWebhookRequest } from 'pomment-common/dist/interface/webhook';
-import { IAuth } from 'pomment-common/dist/auth';
+import { IAuth } from '../../lib/auth';
 import { IWebhookItem } from '../../interface/config';
 
 const executeWebhook = async (list: IWebhookItem[], data: IWebhookRequest, logger: Logger) => {

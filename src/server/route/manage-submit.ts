@@ -1,7 +1,7 @@
 import log4js from 'log4js';
 import { IPostQueryResults } from 'pomment-common/dist/interface/post';
 import { IWebhookRequest, EventName } from 'pomment-common/dist/interface/webhook';
-import { IAuth } from 'pomment-common/dist/auth';
+import { IAuth } from '../../lib/auth';
 import { IContext } from '../main';
 import executeWebhook from '../webhook/execute';
 import sendNotify from '../notify/main';

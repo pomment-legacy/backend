@@ -1,5 +1,5 @@
 import log4js from 'log4js';
-import { IAuth } from 'pomment-common/dist/auth';
+import { IAuth } from '../../lib/auth';
 import { IContext } from '../main';
 
 export interface IManageEditAttrBody {
