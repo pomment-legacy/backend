@@ -75,30 +75,14 @@ function upgrade3(entry: string) {
         const threadUUID = uuidv5(`pomment_${firstPostAt}`, PommentData.MAIN_UUID);
 
         // 为每篇评论分配 UUID
-        thread.forEach((f) => {
-            f.uuid = uuidv5(`pomment_${f.createdAt}`, threadUUID);
-        });
-
-        // 修正每篇评论的 parent，并删除 id
         thread.forEach((f: any) => {
+            f.uuid = uuidv5(`pomment_${f.id}`, threadUUID);
+            delete f.id;
             if (f.parent < 0) {
                 f.parent = null;
                 return;
             }
-            let oldParent: number | undefined;
-            for (let i = 0; i < thread.length; i += 1) {
-                if (thread[i].id === f.parent) {
-                    oldParent = i;
-                    break;
-                }
-            }
-            if (typeof oldParent === 'undefined') {
-                logger.fatal(`Unable to find parent for post ${f.id}`);
-                process.exit(1);
-                return;
-            }
-            f.parent = thread[oldParent].uuid;
-            delete f.id;
+            f.parent = uuidv5(`pomment_${f.parent}`, threadUUID);
         });
 
         // 设置评论串的属性
