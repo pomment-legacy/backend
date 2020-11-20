@@ -38,13 +38,19 @@ function upgrade3(entry: string) {
     logger.info('Upgrading thread data to v3 format');
     const dataOld: IOldAttr[] = fs.readJSONSync(path.join(entry, 'index.json'), fsOpts);
     const data: Map<string, IThreadItem> = new Map();
+    let total = {
+        all: 0,
+        displayed: 0,
+    };
     dataOld.forEach((e) => {
         const threadPath = PommentData.getThreadFileName(e.url);
         const thread: IPostQueryResults[] = fs.readJSONSync(path.join(entry, 'threads', threadPath), fsOpts);
         let amount = 0;
         let latestPostAt = 0;
         thread.forEach((f) => {
+            total.all += 1;
             if (!f.hidden) {
+                total.displayed += 1;
                 amount += 1;
                 if (f.createdAt > latestPostAt) {
                     latestPostAt = f.createdAt;
@@ -54,7 +60,7 @@ function upgrade3(entry: string) {
                 f.rating = null;
             }
         });
-        fs.writeJSONSync(path.join(entry, 'threads', threadPath), thread, fsOpts);
+        fs.writeJSONSync(path.join(entry, 'threads', threadPath), thread, { ...fsOpts, spaces: 4 });
         const item: IThreadItem = {
             title: e.attributes.title,
             latestPostAt,
@@ -62,8 +68,12 @@ function upgrade3(entry: string) {
         };
         data.set(e.url, item);
     });
+    logger.info(`${total.all} comments upgraded (${total.displayed} is displayed in public)`);
+
+    logger.info('Upgrading index.json data format');
     fs.writeJSONSync(path.join(entry, 'index.json'), [...data], fsOpts);
 
+    logger.info('Upgrading status.json');
     status.dataVer = 3;
     fs.writeJSONSync(path.join(entry, 'status.json'), status, fsOpts);
 }
