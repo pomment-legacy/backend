@@ -1,3 +1,4 @@
+import { assert } from 'console';
 import crypto from 'crypto';
 import fs from 'fs-extra';
 import path from 'path';
@@ -34,6 +35,8 @@ export interface IThreadListItem {
 }
 
 export class PommentData {
+    static MAIN_UUID = '91729628-42c2-4e60-8a45-593403a3ac67';
+
     public workingDir: string;
 
     private indexMap: Map<string, IThreadItem>;
@@ -95,10 +98,13 @@ export class PommentData {
             this.saveThreadList();
             return;
         }
+        const now = new Date().getTime();
         this.indexMap.set(url, {
+            uuid: uuidv5(`pomment_${now}`, PommentData.MAIN_UUID),
             title,
             amount: await this.getPostsAmount(url),
-            latestPostAt: new Date().getTime(),
+            firstPostAt: now,
+            latestPostAt: now,
         });
         this.saveThreadList();
     }
@@ -188,7 +194,11 @@ export class PommentData {
             }
         }
         const now = new Date().getTime();
-        const uuid = uuidv5(`pomment_${now}`, uuidv5(url, uuidv5.URL));
+        const threadUUID = this.indexMap.get(url)?.uuid;
+        if (typeof threadUUID === 'undefined') {
+            throw new Error('Unable to find target thread. It should be created first.');
+        }
+        const uuid = uuidv5(`pomment_${now}`, threadUUID);
         const postResults: IPostQueryResults = {
             uuid,
             name,

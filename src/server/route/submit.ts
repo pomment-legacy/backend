@@ -24,9 +24,11 @@ const routeSubmit = async (ctx: IContext) => {
     const logger = log4js.getLogger('Server: /v3/submit');
     logger.level = ctx.logLevel;
     const body: ISubmitBody = ctx.request.body;
-    checkSubmit(body);
     let query: IPostQueryResults;
     try {
+        checkSubmit(body);
+        logger.info('Adding thread title');
+        ctx.pomment.updateThreadInfo(body.url, body.title);
         let finalName = body.name === null ? null : body.name.trim();
         let finalWebsite = body.website === null ? null : sanitizeUrl(body.website.trim());
         if (finalName === '') {
@@ -62,8 +64,6 @@ const routeSubmit = async (ctx: IContext) => {
     }
     let reCAPTCHAScore: number | null = null;
     setTimeout(async () => {
-        logger.info('Adding thread title');
-        ctx.pomment.updateThreadInfo(body.url, body.title);
         if (ctx.userConfig.reCAPTCHA.enabled) {
             logger.info('Verifying user request (reCAPTCHA)');
             if (body.responseKey === null) {

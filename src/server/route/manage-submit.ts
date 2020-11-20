@@ -27,6 +27,8 @@ const routeManageSubmit = async (ctx: IContext) => {
     }
 
     try {
+        logger.info('Adding thread title');
+        ctx.pomment.updateThreadInfo(body.url, body.title);
         query = await ctx.pomment.addPost(
             body.url,
             ctx.userConfig.siteAdmin.name,
@@ -47,8 +49,6 @@ const routeManageSubmit = async (ctx: IContext) => {
         return;
     }
     setTimeout(async () => {
-        logger.info('Adding thread title');
-        ctx.pomment.updateThreadInfo(body.url, body.title);
         logger.info('Handling webhooks');
         const thisParent = await ctx.pomment.getPost(body.url, body.parent);
         const attr = ctx.pomment.getThreadAttribute(body.url);

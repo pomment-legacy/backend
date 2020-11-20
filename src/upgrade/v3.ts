@@ -2,6 +2,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import log4js from 'log4js';
+import { v5 as uuidv5 } from 'uuid';
 import { IThreadItem, IPostQueryResults } from '../interface/post';
 import { PommentData } from '../core/main';
 
@@ -38,7 +39,7 @@ function upgrade3(entry: string) {
     logger.info('Upgrading thread data to v3 format');
     const dataOld: IOldAttr[] = fs.readJSONSync(path.join(entry, 'index.json'), fsOpts);
     const data: Map<string, IThreadItem> = new Map();
-    let total = {
+    const total = {
         all: 0,
         displayed: 0,
     };
@@ -46,9 +47,13 @@ function upgrade3(entry: string) {
         const threadPath = PommentData.getThreadFileName(e.url);
         const thread: IPostQueryResults[] = fs.readJSONSync(path.join(entry, 'threads', threadPath), fsOpts);
         let amount = 0;
+        let firstPostAt = Number.MAX_SAFE_INTEGER;
         let latestPostAt = 0;
+        logger.info(`Upgrading data of thread ${e.attributes.title} (${e.url})`);
         thread.forEach((f) => {
             total.all += 1;
+
+            // 寻找最后发布的公开评论的时间
             if (!f.hidden) {
                 total.displayed += 1;
                 amount += 1;
@@ -56,22 +61,65 @@ function upgrade3(entry: string) {
                     latestPostAt = f.createdAt;
                 }
             }
+
+            // 修正 v2 数据问题
             if (f.rating !== null && Number.isNaN(Number(f.rating))) {
                 f.rating = null;
             }
+
+            // 寻找最早发布评论的时间
+            firstPostAt = Math.min(firstPostAt, f.createdAt);
         });
-        fs.writeJSONSync(path.join(entry, 'threads', threadPath), thread, { ...fsOpts, spaces: 4 });
+
+        // 设置评论串的 UUID
+        const threadUUID = uuidv5(`pomment_${firstPostAt}`, PommentData.MAIN_UUID);
+
+        // 为每篇评论分配 UUID
+        thread.forEach((f) => {
+            f.uuid = uuidv5(`pomment_${f.createdAt}`, threadUUID);
+        });
+
+        // 修正每篇评论的 parent，并删除 id
+        thread.forEach((f: any) => {
+            if (f.parent < 0) {
+                f.parent = null;
+                return;
+            }
+            let oldParent: number | undefined;
+            for (let i = 0; i < thread.length; i += 1) {
+                if (thread[i].id === f.parent) {
+                    oldParent = i;
+                    break;
+                }
+            }
+            if (typeof oldParent === 'undefined') {
+                logger.fatal(`Unable to find parent for post ${f.id}`);
+                process.exit(1);
+                return;
+            }
+            f.parent = thread[oldParent].uuid;
+            delete f.id;
+        });
+
+        // 设置评论串的属性
         const item: IThreadItem = {
+            uuid: threadUUID,
             title: e.attributes.title,
+            firstPostAt,
             latestPostAt,
             amount,
         };
+
+        // 写入到键值对中
         data.set(e.url, item);
+
+        // 保存更新的评论
+        fs.writeJSONSync(path.join(entry, 'threads', threadPath), thread, { ...fsOpts, spaces: 4 });
     });
     logger.info(`${total.all} comments upgraded (${total.displayed} is displayed in public)`);
 
-    logger.info('Upgrading index.json data format');
-    fs.writeJSONSync(path.join(entry, 'index.json'), [...data], fsOpts);
+    logger.info('Upgrading index data');
+    fs.writeJSONSync(path.join(entry, 'index.json'), [...data], { ...fsOpts, spaces: 4 });
 
     logger.info('Upgrading status.json');
     status.dataVer = 3;

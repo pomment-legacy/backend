@@ -1,10 +1,13 @@
 export interface IThreadItem {
+    uuid: string;
     title: string;
-    latestPostAt: number | null;
+    firstPostAt: number;
+    latestPostAt: number;
     amount: number;
 }
 
 export interface IPostQueryResults {
+    id?: number;
     uuid: string;
     name: string | null;
     email: string;
