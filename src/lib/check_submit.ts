@@ -13,8 +13,8 @@ const checkSubmit = (body: ISubmitBody) => {
     if (body.content.trim().replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, '_').length > 1000) {
         throw new Error("Content's length is more than 1000 characters");
     }
-    if (typeof body.parent !== 'number') {
-        throw new Error('Parent value is not number');
+    if (body.parent !== null && typeof body.parent !== 'string') {
+        throw new Error('Parent value is not string or null');
     }
     if (typeof body.receiveEmail !== 'boolean') {
         throw new Error('ReceiveEmail value is not boolean');

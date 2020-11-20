@@ -2,9 +2,11 @@
 import fs from 'fs-extra';
 import path from 'path';
 import log4js from 'log4js';
+import yaml from 'js-yaml';
 import { v5 as uuidv5 } from 'uuid';
 import { IThreadItem, IPostQueryResults } from '../interface/post';
 import { PommentData } from '../core/main';
+import { IConfig, NotifyType } from '../interface/config';
 
 const fsOpts = { encoding: 'utf8' };
 
@@ -33,6 +35,35 @@ function upgrade3(entry: string) {
         logger.error('Unsupported data format version.');
         return;
     }
+    logger.info('Upgrading config file');
+    const oldConfig = fs.readJSONSync(path.join(entry, 'config.json'), fsOpts);
+    delete oldConfig.reCAPTCHA.siteKey;
+
+    const newConfig: IConfig = {
+        apiHost: oldConfig.apiHost,
+        apiPort: oldConfig.apiPort,
+        apiURL: 'http://example.com',
+        siteAdmin: oldConfig.siteAdmin,
+        reCAPTCHA: oldConfig.reCAPTCHA,
+        guestNotify: {
+            mode: NotifyType.none,
+            title: '',
+            smtpSender: '',
+            smtpHost: '',
+            smtpPort: 0,
+            smtpUsername: '',
+            smtpPassword: '',
+            smtpSecure: false,
+            mailgunAPIKey: '',
+            mailgunDomain: '',
+        },
+        webhook: {
+            enabled: false,
+            targets: [],
+        },
+    };
+    fs.writeFileSync(path.join(entry, 'config.yaml'), yaml.safeDump(newConfig), { encoding: 'utf-8' });
+
     logger.info('Renaming mail template file');
     fs.moveSync(path.join(entry, 'mail_notify.html'), path.join(entry, 'mail_template.html'));
 
