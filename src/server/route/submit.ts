@@ -12,7 +12,7 @@ export interface ISubmitBody {
     name: string | null;
     email: string;
     website: string | null;
-    parent: number;
+    parent: string;
     content: string;
     receiveEmail: boolean;
     responseKey: string | null;
@@ -49,10 +49,10 @@ const routeSubmit = async (ctx: IContext) => {
             { verifyLocked: true },
         );
         const {
-            id, name, email, website, parent, content, editKey, createdAt, updatedAt,
+            uuid, name, email, website, parent, content, editKey, createdAt, updatedAt,
         } = query;
         const userResult = {
-            id, name, email, website, parent, content, editKey, createdAt, updatedAt,
+            uuid, name, email, website, parent, content, editKey, createdAt, updatedAt,
         };
         ctx.response.body = userResult;
     } catch (e) {
@@ -68,7 +68,7 @@ const routeSubmit = async (ctx: IContext) => {
             logger.info('Verifying user request (reCAPTCHA)');
             if (body.responseKey === null) {
                 logger.info('Invaild responseKey!');
-                await ctx.pomment.editPost(body.url, query.id, {
+                await ctx.pomment.editPost(body.url, query.uuid, {
                     hidden: true,
                 }, {
                     prevertUpdateTime: true,
@@ -81,7 +81,7 @@ const routeSubmit = async (ctx: IContext) => {
                     logger,
                 );
                 reCAPTCHAScore = result.score;
-                await ctx.pomment.editPost(body.url, query.id, {
+                await ctx.pomment.editPost(body.url, query.uuid, {
                     hidden: result.hidden,
                     rating: reCAPTCHAScore,
                 }, {

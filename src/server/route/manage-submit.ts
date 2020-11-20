@@ -8,7 +8,7 @@ import sendNotify from '../notify/main';
 
 export interface IManageSubmitBody {
     auth: IAuth;
-    parent: number;
+    parent: string;
     content: string;
     title: string;
     url: string;

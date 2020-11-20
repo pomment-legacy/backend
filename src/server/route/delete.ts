@@ -4,15 +4,15 @@ import { IContext } from '../main';
 
 export interface IDeleteBody {
     url: string;
-    id: number;
+    uuid: string;
     editKey: string;
 }
 
 const routeDelete = async (ctx: IContext) => {
     const logger = log4js.getLogger('Server: /v3/delete');
     logger.level = ctx.logLevel;
-    const { body } = ctx.request;
-    await ctx.pomment.editPostUser(body.url, body.id, '', body.editKey, true);
+    const body: IDeleteBody = ctx.request.body;
+    await ctx.pomment.editPostUser(body.url, body.uuid, '', body.editKey, true);
     ctx.response.body = '';
 };
 

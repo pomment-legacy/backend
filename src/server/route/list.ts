@@ -17,7 +17,7 @@ export interface IListBody {
 const routeList = async (ctx: IContext) => {
     const logger = log4js.getLogger('Server: /v3/list');
     logger.level = ctx.logLevel;
-    const { body } = ctx.request;
+    const body: IListBody = ctx.request.body;
     const { pomment } = ctx;
     try {
         ctx.response.body = {

@@ -32,7 +32,7 @@ const sendNotify = async (
     const template = fs.readFileSync(path.resolve(ctx.userPath, 'mail_template.html'), { encoding: 'utf8' });
     let mailData = template;
     let mailTitle = config.guestNotify.title;
-    const unsubscriber = `${config.apiURL}/unsubscribe/${base64url.encode(url)}/${parent.id}/${parent.editKey}`;
+    const unsubscriber = `${config.apiURL}/unsubscribe/${base64url.encode(url)}/${parent.uuid}/${parent.editKey}`;
     const replacePlan: IReplacePlan[] = [
         { from: '{{title}}', to: title, line: false },
         { from: '{{url}}', to: url, line: false },

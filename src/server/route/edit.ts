@@ -4,7 +4,7 @@ import { IContext } from '../main';
 
 export interface IEditBody {
     url: string;
-    id: number;
+    uuid: string;
     content: string;
     editKey: string;
     responseKey: string | null;
@@ -13,7 +13,7 @@ export interface IEditBody {
 const routeEdit = async (ctx: IContext) => {
     const logger = log4js.getLogger('Server: /v3/edit');
     logger.level = ctx.logLevel;
-    const { body } = ctx.request;
+    const body: IEditBody = ctx.request.body;
     let reCAPTCHAScore: number | null = null;
     ctx.response.body = '';
     if (ctx.userConfig.reCAPTCHA.enabled) {
@@ -30,12 +30,12 @@ const routeEdit = async (ctx: IContext) => {
         );
         reCAPTCHAScore = result.score;
         if (!result.hidden) {
-            await ctx.pomment.editPostUser(body.url, body.id, body.content, body.editKey);
+            await ctx.pomment.editPostUser(body.url, body.uuid, body.content, body.editKey);
         } else {
             return true;
         }
     }
-    await ctx.pomment.editPostUser(body.url, body.id, body.content, body.editKey);
+    await ctx.pomment.editPostUser(body.url, body.uuid, body.content, body.editKey);
     return true;
     // setTimeout(async () => {
     //     logger.info("Handling webhooks");

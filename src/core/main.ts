@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import fs from 'fs-extra';
 import path from 'path';
+import { v5 as uuidv5 } from 'uuid';
 import { IPostItem, IPostQueryResults, IThreadItem } from '../interface/post';
 import SHA from '../lib/sha';
 import wipeInvalid from '../lib/wipe_invalid';
@@ -9,12 +10,12 @@ const fsOpts = { encoding: 'utf8' };
 const toTimeStamp = (e: number) => new Date(e).getTime();
 
 export interface IPostEditArgs {
-    id?: number;
+    // uuid: string;
     name?: string | null;
     email?: string;
     website?: string | null;
     avatar?: string | null;
-    parent?: number;
+    parent?: string | null;
     content?: string;
     hidden?: boolean;
     rating?: number | null;
@@ -113,12 +114,12 @@ export class PommentData {
         const output: IPostItem[] = [];
         filtered.forEach((e) => {
             const {
-                id, name, email, website, avatar, parent, content, byAdmin, createdAt,
+                uuid, name, email, website, avatar, parent, content, byAdmin, createdAt,
             } = e;
             const emailHashed: string | null = email ? SHA.md5(email) : null;
             const edited = (toTimeStamp(e.createdAt) < toTimeStamp(e.updatedAt));
             output.push({
-                id,
+                uuid,
                 name,
                 emailHashed,
                 website,
@@ -149,11 +150,11 @@ export class PommentData {
         return filtered.length;
     }
 
-    public async getPost(url: string, id: number) {
+    public async getPost(url: string, uuid: string) {
         const content: IPostQueryResults[] = await fs.readJSON(this.getThreadPath(url), fsOpts);
         while (content.length > 0) {
             const temp = content.pop();
-            if (typeof temp !== 'undefined' && temp.id === id) {
+            if (typeof temp !== 'undefined' && temp.uuid === uuid) {
                 return temp;
             }
         }
@@ -166,7 +167,7 @@ export class PommentData {
         email: string,
         website: string | null,
         content: string,
-        parent = -1,
+        parent: string | null,
         receiveEmail: boolean,
         byAdmin: boolean,
         hidden = false,
@@ -179,7 +180,6 @@ export class PommentData {
             throw new Error('This thread is already locked and verifyLocked is enabled');
         }
         let list: IPostQueryResults[] = [];
-        let id = 1;
         try {
             list = await fs.readJSON(this.getThreadPath(url), fsOpts);
         } catch (e) {
@@ -187,17 +187,10 @@ export class PommentData {
                 throw e;
             }
         }
-        if (list.length > 0) {
-            id = list.reduce((prev, cur) => {
-                if (prev.id > cur.id) {
-                    return prev;
-                }
-                return cur;
-            }).id + 1;
-        }
         const now = new Date().getTime();
+        const uuid = uuidv5(`pomment_${now}`, uuidv5(url, uuidv5.URL));
         const postResults: IPostQueryResults = {
-            id,
+            uuid,
             name,
             email,
             website,
@@ -218,7 +211,7 @@ export class PommentData {
         return postResults;
     }
 
-    public async editPost(url: string, id: number, {
+    public async editPost(url: string, uuid: string, {
         name,
         email,
         website,
@@ -255,7 +248,7 @@ export class PommentData {
         let targetID = 0;
         wipeInvalid(toUpdate);
         for (let i = 0; i < list.length; i++) {
-            if (list[i].id === id) {
+            if (list[i].uuid === uuid) {
                 targetID = i;
                 break;
             }
@@ -303,9 +296,9 @@ export class PommentData {
     }
 
     public async editPostUser(
-        url: string, id: number, content: string, editKey: string, remove = false,
+        url: string, uuid: string, content: string, editKey: string, remove = false,
     ) {
-        const wanted = await this.getPost(url, id);
+        const wanted = await this.getPost(url, uuid);
         if (wanted === null) {
             throw new Error('Post not found');
         }
@@ -315,14 +308,14 @@ export class PommentData {
         if (wanted.editKey !== editKey) {
             throw new Error('Edit key is incorrect');
         }
-        await this.editPost(url, id, {
+        await this.editPost(url, uuid, {
             content: remove ? undefined : content,
             hidden: remove ? true : undefined,
         }, { verifyLocked: true });
     }
 
-    public async editPostAdmin(url: string, id: number, content: string, remove = false) {
-        await this.editPost(url, id, {
+    public async editPostAdmin(url: string, uuid: string, content: string, remove = false) {
+        await this.editPost(url, uuid, {
             content: remove ? undefined : content,
             hidden: remove ? true : undefined,
         });

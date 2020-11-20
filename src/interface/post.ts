@@ -5,12 +5,12 @@ export interface IThreadItem {
 }
 
 export interface IPostQueryResults {
-    id: number;
+    uuid: string;
     name: string | null;
     email: string;
     website: string | null;
     avatar: string | null;
-    parent: number;
+    parent: string | null;
     content: string;
     hidden: boolean;
     rating: number | null;
@@ -23,12 +23,12 @@ export interface IPostQueryResults {
 }
 
 export interface IPostItem {
-    id: number;
+    uuid: string;
     name: string | null;
     emailHashed: string | null;
     website: string | null;
     avatar: string | null;
-    parent: number;
+    parent: string | null;
     content: string;
     byAdmin: boolean;
     createdAt: number;

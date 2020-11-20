@@ -5,7 +5,7 @@ import { IContext } from '../main';
 export interface IManagePostBody {
     auth: IAuth;
     url: string;
-    id: number;
+    uuid: string;
 }
 
 const routeManagePost = async (ctx: IContext) => {
@@ -17,7 +17,7 @@ const routeManagePost = async (ctx: IContext) => {
         ctx.status = 403;
         return;
     }
-    ctx.response.body = await pomment.getPost(body.url, body.id);
+    ctx.response.body = await pomment.getPost(body.url, body.uuid);
 };
 
 export default routeManagePost;
