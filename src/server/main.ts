@@ -11,8 +11,6 @@ import { Auth } from '../lib/auth';
 import { PommentData } from '../core/main';
 import { IConfig } from '../interface/config';
 import { IPommentContext } from '../interface/context';
-import routeDelete from './route/delete';
-import routeEdit from './route/edit';
 import routeList from './route/list';
 import routeSubmit from './route/submit';
 import routeManageSubmit from './route/manage-submit';
@@ -45,8 +43,6 @@ function bootServer(entry: string) {
 
     router.post('/v3/list', routeList);
     router.post('/v3/submit', routeSubmit);
-    router.post('/v3/edit', routeEdit);
-    router.post('/v3/delete', routeDelete);
     router.post('/v3/manage/submit', routeManageSubmit);
     router.post('/v3/manage/list', routeManageList);
     router.post('/v3/manage/threads', routeManageThreads);

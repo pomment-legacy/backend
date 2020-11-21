@@ -6,6 +6,8 @@ const logLevel = process.env.PMNT_LOG_LEVEL || 'info';
 export class Auth {
     private password: string;
 
+    // TODO：搞清楚 ESLint 报错是什么鬼
+    // eslint-disable-next-line no-undef
     private timer: NodeJS.Timeout | null;
 
     private queue: number[];
