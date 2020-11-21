@@ -23,7 +23,7 @@ interface IStatus {
 
 function upgrade3(entry: string) {
     const logger = log4js.getLogger('Upgrader');
-    const logLevel = process.env.PMNT_LOG_LEVEL || 'info';
+    const logLevel = process.env.NODE_ENV === 'development' ? 'debug' : 'info';
     logger.level = logLevel;
 
     const status: IStatus = fs.readJSONSync(path.join(entry, 'status.json'), fsOpts);

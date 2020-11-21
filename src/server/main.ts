@@ -26,7 +26,7 @@ export type IContext =
 
 function bootServer(entry: string) {
     const logger = log4js.getLogger('Main');
-    const logLevel = process.env.PMNT_LOG_LEVEL || 'info';
+    const logLevel = process.env.NODE_ENV === 'development' ? 'debug' : 'info';
     const configPath = path.join(entry, 'config.yaml');
 
     const tryLoad: any = yaml.safeLoad(fs.readFileSync(configPath, { encoding: 'utf8' }));
@@ -52,7 +52,11 @@ function bootServer(entry: string) {
     router.post('/v3/manage/post', routeManagePost);
     // router.post('/auth-test', routeAuthTest);
 
-    if (process.env.PMNT_LOG_LEVEL === 'debug') {
+    if (process.env.NODE_ENV === 'development') {
+        /**
+         * 只有在 development 模式下才会增加 AJAX 所需的 header 和 OPTIONS 请求响应。
+         * 在生产模式中，应当在 nginx、Caddy 等专门 HTTP 服务器反代时进行设置。
+         */
         router.options('*', (ctx) => {
             ctx.status = 200;
             return true;

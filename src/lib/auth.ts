@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import log4js from 'log4js';
 
-const logLevel = process.env.PMNT_LOG_LEVEL || 'info';
+const logLevel = process.env.NODE_ENV === 'development' ? 'debug' : 'info';
 
 export class Auth {
     private password: string;
