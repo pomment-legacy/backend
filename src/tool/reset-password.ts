@@ -33,7 +33,7 @@ function resetPassword(entry: string) {
         return;
     }
     const config: IConfig = tryLoad;
-    config.siteAdmin.password = sha.sha256(password);
+    config.siteAdmin.password = sha.sha512(password);
 
     process.stderr.write('Writing new password to config file...\n');
     fs.writeFileSync(path.join(entry, 'config.yaml'), yaml.safeDump(config), { encoding: 'utf-8' });
