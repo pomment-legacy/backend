@@ -57,7 +57,7 @@ function bootServer(entry: string) {
          * 只有在 development 模式下才会增加 AJAX 所需的 header 和 OPTIONS 请求响应。
          * 在生产模式中，应当在 nginx、Caddy 等专门 HTTP 服务器反代时进行设置。
          */
-        router.options('*', (ctx) => {
+        router.options('(.*)', (ctx) => {
             ctx.status = 200;
             return true;
         });
