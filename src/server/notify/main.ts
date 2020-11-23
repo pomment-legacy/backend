@@ -44,7 +44,7 @@ const sendNotify = async (
     ];
     replacePlan.forEach((e) => {
         mailData = mailData.replace(new RegExp(e.from, 'g'), escapeHTML(e.to, e.line));
-        mailTitle = mailData.replace(new RegExp(e.from, 'g'), e.to);
+        mailTitle = mailTitle.replace(new RegExp(e.from, 'g'), e.to);
     });
     try {
         switch (config.guestNotify.mode) {

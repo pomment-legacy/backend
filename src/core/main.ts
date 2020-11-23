@@ -89,6 +89,9 @@ export class PommentData {
     }
 
     public async updateThreadInfo(url: string, title: string, override = false) {
+        if (!fs.existsSync(this.getThreadPath(url))) {
+            fs.writeFileSync(this.getThreadPath(url), '[]', { encoding: 'utf8' });
+        }
         if (!override && this.indexMap.has(url)) {
             const ref = this.indexMap.get(url);
             if (ref !== undefined) {
@@ -189,9 +192,7 @@ export class PommentData {
         try {
             list = await fs.readJSON(this.getThreadPath(url), fsOpts);
         } catch (e) {
-            if (e.code !== 'ENOENT') {
-                throw e;
-            }
+            throw new Error('Unable to find target thread. It should be created first.');
         }
         const now = new Date().getTime();
         const threadUUID = this.indexMap.get(url)?.uuid;

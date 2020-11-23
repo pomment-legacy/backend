@@ -1,6 +1,6 @@
 {
   "name": "pomment-backend",
-  "version": "3.0.0",
+  "version": "3.0.2",
   "repository": "git@github.com/pomment/backend.git",
   "author": "tcdw <tcdw2011@gmail.com>",
   "license": "BSD-3-Clause",
@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@braintree/sanitize-url": "^5.0.0",
-    "@types/braintree__sanitize-url": "^4.1.0",
     "@types/fs-extra": "^9.0.4",
     "@types/html-to-text": "^5.1.2",
     "@types/js-yaml": "^3.12.5",
@@ -55,8 +54,9 @@
     "uuid": "^8.3.1"
   },
   "bin": {
-    "pomment-config": "./bin/pomment-config",
     "pomment-init": "./bin/pomment-init",
+    "pomment-reset-password": "./bin/pomment-reset-password",
+    "pomment-upgrade": "./bin/pomment-upgrade",
     "pomment-server": "./bin/pomment-server"
   },
   "preferGlobal": true
