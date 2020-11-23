@@ -5,7 +5,7 @@ const path = require('path');
 const bootServer = require('../dist/server/main').default;
 
 if (!argv._[0] || argv.h || argv.help || argv._[0] === 'help') {
-    process.stdout.write('Usage: pomment-server <path>\n');
+    process.stderr.write('Usage: pomment-server <path>\n');
     process.exit(1);
 }
 

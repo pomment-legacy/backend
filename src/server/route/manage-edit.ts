@@ -1,11 +1,11 @@
 import log4js from 'log4js';
-import { IAuth } from 'pomment-common/dist/auth';
+import { IAuth } from '../../lib/auth';
 import { IContext } from '../main';
 
 export interface IManageEditAttrBody {
     auth: IAuth;
     url: string;
-    id: number;
+    uuid: string;
     name: string;
     email: string;
     website: string;
@@ -23,7 +23,7 @@ const routeManageEdit = async (ctx: IContext) => {
         ctx.status = 403;
         return;
     }
-    pomment.editPost(body.url, body.id, {
+    pomment.editPost(body.url, body.uuid, {
         name: body.name,
         email: body.email,
         website: body.website,

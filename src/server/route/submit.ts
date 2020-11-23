@@ -1,7 +1,7 @@
 import log4js from 'log4js';
-import { IPostQueryResults } from 'pomment-common/dist/interface/post';
 import { sanitizeUrl } from '@braintree/sanitize-url';
-import { IWebhookRequest, EventName } from 'pomment-common/dist/interface/webhook';
+import { IPostQueryResults } from '../../interface/post';
+import { IWebhookRequest, EventName } from '../../interface/webhook';
 import checkSubmit from '../../lib/check_submit';
 import reCAPTCHA from '../../lib/recaptcha';
 import { IContext } from '../main';
@@ -12,7 +12,7 @@ export interface ISubmitBody {
     name: string | null;
     email: string;
     website: string | null;
-    parent: number;
+    parent: string;
     content: string;
     receiveEmail: boolean;
     responseKey: string | null;
@@ -24,9 +24,11 @@ const routeSubmit = async (ctx: IContext) => {
     const logger = log4js.getLogger('Server: /v3/submit');
     logger.level = ctx.logLevel;
     const body: ISubmitBody = ctx.request.body;
-    checkSubmit(body);
     let query: IPostQueryResults;
     try {
+        checkSubmit(body);
+        logger.info('Adding thread title');
+        ctx.pomment.updateThreadInfo(body.url, body.title);
         let finalName = body.name === null ? null : body.name.trim();
         let finalWebsite = body.website === null ? null : sanitizeUrl(body.website.trim());
         if (finalName === '') {
@@ -49,10 +51,10 @@ const routeSubmit = async (ctx: IContext) => {
             { verifyLocked: true },
         );
         const {
-            id, name, email, website, parent, content, editKey, createdAt, updatedAt,
+            uuid, name, email, website, parent, content, editKey, createdAt, updatedAt,
         } = query;
         const userResult = {
-            id, name, email, website, parent, content, editKey, createdAt, updatedAt,
+            uuid, name, email, website, parent, content, editKey, createdAt, updatedAt,
         };
         ctx.response.body = userResult;
     } catch (e) {
@@ -62,13 +64,11 @@ const routeSubmit = async (ctx: IContext) => {
     }
     let reCAPTCHAScore: number | null = null;
     setTimeout(async () => {
-        logger.info('Adding thread title');
-        ctx.pomment.updateThreadInfo(body.url, body.title);
         if (ctx.userConfig.reCAPTCHA.enabled) {
             logger.info('Verifying user request (reCAPTCHA)');
             if (body.responseKey === null) {
                 logger.info('Invaild responseKey!');
-                await ctx.pomment.editPost(body.url, query.id, {
+                await ctx.pomment.editPost(body.url, query.uuid, {
                     hidden: true,
                 }, {
                     prevertUpdateTime: true,
@@ -81,7 +81,7 @@ const routeSubmit = async (ctx: IContext) => {
                     logger,
                 );
                 reCAPTCHAScore = result.score;
-                await ctx.pomment.editPost(body.url, query.id, {
+                await ctx.pomment.editPost(body.url, query.uuid, {
                     hidden: result.hidden,
                     rating: reCAPTCHAScore,
                 }, {

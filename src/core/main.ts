@@ -1,7 +1,9 @@
+import { assert } from 'console';
 import crypto from 'crypto';
 import fs from 'fs-extra';
 import path from 'path';
-import { IPostItem, IPostQueryResults, IThreadItem } from 'pomment-common/dist/interface/post';
+import { v5 as uuidv5 } from 'uuid';
+import { IPostItem, IPostQueryResults, IThreadItem } from '../interface/post';
 import SHA from '../lib/sha';
 import wipeInvalid from '../lib/wipe_invalid';
 
@@ -9,12 +11,12 @@ const fsOpts = { encoding: 'utf8' };
 const toTimeStamp = (e: number) => new Date(e).getTime();
 
 export interface IPostEditArgs {
-    id?: number;
+    // uuid: string;
     name?: string | null;
     email?: string;
     website?: string | null;
     avatar?: string | null;
-    parent?: number;
+    parent?: string | null;
     content?: string;
     hidden?: boolean;
     rating?: number | null;
@@ -33,6 +35,8 @@ export interface IThreadListItem {
 }
 
 export class PommentData {
+    static MAIN_UUID = '91729628-42c2-4e60-8a45-593403a3ac67';
+
     public workingDir: string;
 
     private indexMap: Map<string, IThreadItem>;
@@ -85,6 +89,9 @@ export class PommentData {
     }
 
     public async updateThreadInfo(url: string, title: string, override = false) {
+        if (!fs.existsSync(this.getThreadPath(url))) {
+            fs.writeFileSync(this.getThreadPath(url), '[]', { encoding: 'utf8' });
+        }
         if (!override && this.indexMap.has(url)) {
             const ref = this.indexMap.get(url);
             if (ref !== undefined) {
@@ -94,10 +101,13 @@ export class PommentData {
             this.saveThreadList();
             return;
         }
+        const now = new Date().getTime();
         this.indexMap.set(url, {
+            uuid: uuidv5(`pomment_${now}`, PommentData.MAIN_UUID),
             title,
             amount: await this.getPostsAmount(url),
-            latestPostAt: new Date().getTime(),
+            firstPostAt: now,
+            latestPostAt: now,
         });
         this.saveThreadList();
     }
@@ -113,12 +123,12 @@ export class PommentData {
         const output: IPostItem[] = [];
         filtered.forEach((e) => {
             const {
-                id, name, email, website, avatar, parent, content, byAdmin, createdAt,
+                uuid, name, email, website, avatar, parent, content, byAdmin, createdAt,
             } = e;
             const emailHashed: string | null = email ? SHA.md5(email) : null;
             const edited = (toTimeStamp(e.createdAt) < toTimeStamp(e.updatedAt));
             output.push({
-                id,
+                uuid,
                 name,
                 emailHashed,
                 website,
@@ -149,11 +159,11 @@ export class PommentData {
         return filtered.length;
     }
 
-    public async getPost(url: string, id: number) {
+    public async getPost(url: string, uuid: string) {
         const content: IPostQueryResults[] = await fs.readJSON(this.getThreadPath(url), fsOpts);
         while (content.length > 0) {
             const temp = content.pop();
-            if (typeof temp !== 'undefined' && temp.id === id) {
+            if (typeof temp !== 'undefined' && temp.uuid === uuid) {
                 return temp;
             }
         }
@@ -166,7 +176,7 @@ export class PommentData {
         email: string,
         website: string | null,
         content: string,
-        parent = -1,
+        parent: string | null,
         receiveEmail: boolean,
         byAdmin: boolean,
         hidden = false,
@@ -179,25 +189,19 @@ export class PommentData {
             throw new Error('This thread is already locked and verifyLocked is enabled');
         }
         let list: IPostQueryResults[] = [];
-        let id = 1;
         try {
             list = await fs.readJSON(this.getThreadPath(url), fsOpts);
         } catch (e) {
-            if (e.code !== 'ENOENT') {
-                throw e;
-            }
-        }
-        if (list.length > 0) {
-            id = list.reduce((prev, cur) => {
-                if (prev.id > cur.id) {
-                    return prev;
-                }
-                return cur;
-            }).id + 1;
+            throw new Error('Unable to find target thread. It should be created first.');
         }
         const now = new Date().getTime();
+        const threadUUID = this.indexMap.get(url)?.uuid;
+        if (typeof threadUUID === 'undefined') {
+            throw new Error('Unable to find target thread. It should be created first.');
+        }
+        const uuid = uuidv5(`pomment_${now}`, threadUUID);
         const postResults: IPostQueryResults = {
-            id,
+            uuid,
             name,
             email,
             website,
@@ -218,7 +222,7 @@ export class PommentData {
         return postResults;
     }
 
-    public async editPost(url: string, id: number, {
+    public async editPost(url: string, uuid: string, {
         name,
         email,
         website,
@@ -255,7 +259,7 @@ export class PommentData {
         let targetID = 0;
         wipeInvalid(toUpdate);
         for (let i = 0; i < list.length; i++) {
-            if (list[i].id === id) {
+            if (list[i].uuid === uuid) {
                 targetID = i;
                 break;
             }
@@ -303,9 +307,9 @@ export class PommentData {
     }
 
     public async editPostUser(
-        url: string, id: number, content: string, editKey: string, remove = false,
+        url: string, uuid: string, content: string, editKey: string, remove = false,
     ) {
-        const wanted = await this.getPost(url, id);
+        const wanted = await this.getPost(url, uuid);
         if (wanted === null) {
             throw new Error('Post not found');
         }
@@ -315,14 +319,14 @@ export class PommentData {
         if (wanted.editKey !== editKey) {
             throw new Error('Edit key is incorrect');
         }
-        await this.editPost(url, id, {
+        await this.editPost(url, uuid, {
             content: remove ? undefined : content,
             hidden: remove ? true : undefined,
         }, { verifyLocked: true });
     }
 
-    public async editPostAdmin(url: string, id: number, content: string, remove = false) {
-        await this.editPost(url, id, {
+    public async editPostAdmin(url: string, uuid: string, content: string, remove = false) {
+        await this.editPost(url, uuid, {
             content: remove ? undefined : content,
             hidden: remove ? true : undefined,
         });

@@ -1,14 +1,14 @@
 import log4js from 'log4js';
-import { IPostQueryResults } from 'pomment-common/dist/interface/post';
-import { IWebhookRequest, EventName } from 'pomment-common/dist/interface/webhook';
-import { IAuth } from 'pomment-common/dist/auth';
+import { IPostQueryResults } from '../../interface/post';
+import { IWebhookRequest, EventName } from '../../interface/webhook';
+import { IAuth } from '../../lib/auth';
 import { IContext } from '../main';
 import executeWebhook from '../webhook/execute';
 import sendNotify from '../notify/main';
 
 export interface IManageSubmitBody {
     auth: IAuth;
-    parent: number;
+    parent: string;
     content: string;
     title: string;
     url: string;
@@ -27,6 +27,8 @@ const routeManageSubmit = async (ctx: IContext) => {
     }
 
     try {
+        logger.info('Adding thread title');
+        ctx.pomment.updateThreadInfo(body.url, body.title);
         query = await ctx.pomment.addPost(
             body.url,
             ctx.userConfig.siteAdmin.name,
@@ -47,8 +49,6 @@ const routeManageSubmit = async (ctx: IContext) => {
         return;
     }
     setTimeout(async () => {
-        logger.info('Adding thread title');
-        ctx.pomment.updateThreadInfo(body.url, body.title);
         logger.info('Handling webhooks');
         const thisParent = await ctx.pomment.getPost(body.url, body.parent);
         const attr = ctx.pomment.getThreadAttribute(body.url);

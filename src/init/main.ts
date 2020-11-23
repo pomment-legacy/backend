@@ -4,7 +4,7 @@ import log4js from 'log4js';
 
 function init(entry: string) {
     const logger = log4js.getLogger('Init');
-    const logLevel = process.env.PMNT_LOG_LEVEL || 'info';
+    const logLevel = process.env.NODE_ENV === 'development' ? 'debug' : 'info';
     logger.level = logLevel;
 
     if (fs.existsSync(entry) && fs.readdirSync(entry).length > 0) {

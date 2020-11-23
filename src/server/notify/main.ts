@@ -2,7 +2,7 @@ import base64url from 'base64url';
 import fs from 'fs';
 import log4js from 'log4js';
 import path from 'path';
-import { IPostQueryResults } from 'pomment-common/dist/interface/post';
+import { IPostQueryResults } from '../../interface/post';
 import escapeHTML from './espace';
 import { IContext } from '../main';
 import { NotifyType } from '../../interface/config';
@@ -32,7 +32,7 @@ const sendNotify = async (
     const template = fs.readFileSync(path.resolve(ctx.userPath, 'mail_template.html'), { encoding: 'utf8' });
     let mailData = template;
     let mailTitle = config.guestNotify.title;
-    const unsubscriber = `${config.apiURL}/unsubscribe/${base64url.encode(url)}/${parent.id}/${parent.editKey}`;
+    const unsubscriber = `${config.apiURL}/unsubscribe/${base64url.encode(url)}/${parent.uuid}/${parent.editKey}`;
     const replacePlan: IReplacePlan[] = [
         { from: '{{title}}', to: title, line: false },
         { from: '{{url}}', to: url, line: false },
@@ -44,7 +44,7 @@ const sendNotify = async (
     ];
     replacePlan.forEach((e) => {
         mailData = mailData.replace(new RegExp(e.from, 'g'), escapeHTML(e.to, e.line));
-        mailTitle = mailData.replace(new RegExp(e.from, 'g'), e.to);
+        mailTitle = mailTitle.replace(new RegExp(e.from, 'g'), e.to);
     });
     try {
         switch (config.guestNotify.mode) {
