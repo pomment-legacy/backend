@@ -10,6 +10,9 @@ const content = {
     sha256(...str: string[]) {
         return this.compute('sha256', ...str);
     },
+    sha512(...str: string[]) {
+        return this.compute('sha512', ...str);
+    },
     md5(...str: string[]) {
         return this.compute('md5', ...str);
     },
