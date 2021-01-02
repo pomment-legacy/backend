@@ -31,6 +31,10 @@ const routeManageEdit = async (ctx: IContext) => {
         content: body.content,
         hidden: body.hidden,
     });
+
+    logger.info('Updating thread counter');
+    ctx.pomment.updateCounter(body.url);
+
     ctx.response.body = '';
 };
 

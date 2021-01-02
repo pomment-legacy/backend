@@ -49,6 +49,9 @@ const routeManageSubmit = async (ctx: IContext) => {
         return;
     }
     setTimeout(async () => {
+        logger.info('Updating thread counter');
+        ctx.pomment.updateCounter(body.url);
+
         logger.info('Handling webhooks');
         const thisParent = await ctx.pomment.getPost(body.url, body.parent);
         const attr = ctx.pomment.getThreadAttribute(body.url);

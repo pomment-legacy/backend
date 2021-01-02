@@ -89,6 +89,9 @@ const routeSubmit = async (ctx: IContext) => {
                 });
             }
         }
+        logger.info('Updating thread counter');
+        ctx.pomment.updateCounter(body.url);
+
         logger.info('Handling webhooks');
         const thisParent = await ctx.pomment.getPost(body.url, body.parent);
         const attr = ctx.pomment.getThreadAttribute(body.url);

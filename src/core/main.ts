@@ -112,6 +112,15 @@ export class PommentData {
         this.saveThreadList();
     }
 
+    public async updateCounter(url: string) {
+        const ref = this.indexMap.get(url);
+        if (!ref) {
+            throw new Error('Thread not found');
+        }
+        ref.amount = await this.getPostsAmount(url);
+        this.indexMap.set(url, ref);
+    }
+
     public async getPosts(url: string) {
         const data: IPostQueryResults[] = await fs.readJSON(this.getThreadPath(url), fsOpts);
         const filtered = data.filter((e) => {
