@@ -27,7 +27,7 @@ function resetPassword(entry: string) {
         }
         password = pass1;
     }
-    const tryLoad: any = yaml.safeLoad(fs.readFileSync(path.join(entry, 'config.yaml'), { encoding: 'utf8' }));
+    const tryLoad: any = yaml.load(fs.readFileSync(path.join(entry, 'config.yaml'), { encoding: 'utf8' }));
     if (!tryLoad || typeof tryLoad !== 'object') {
         process.stderr.write('Unable to parse config file.\n');
         return;
@@ -36,7 +36,7 @@ function resetPassword(entry: string) {
     config.siteAdmin.password = sha.sha512(password);
 
     process.stderr.write('Writing new password to config file...\n');
-    fs.writeFileSync(path.join(entry, 'config.yaml'), yaml.safeDump(config), { encoding: 'utf-8' });
+    fs.writeFileSync(path.join(entry, 'config.yaml'), yaml.dump(config), { encoding: 'utf-8' });
 }
 
 export default resetPassword;

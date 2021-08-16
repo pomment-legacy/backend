@@ -62,7 +62,7 @@ function upgrade3(entry: string) {
             targets: [],
         },
     };
-    fs.writeFileSync(path.join(entry, 'config.yaml'), yaml.safeDump(newConfig), { encoding: 'utf-8' });
+    fs.writeFileSync(path.join(entry, 'config.yaml'), yaml.dump(newConfig), { encoding: 'utf-8' });
 
     logger.info('Renaming mail template file');
     fs.moveSync(path.join(entry, 'mail_notify.html'), path.join(entry, 'mail_template.html'));

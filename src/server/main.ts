@@ -29,7 +29,7 @@ function bootServer(entry: string) {
     const logLevel = process.env.NODE_ENV === 'development' ? 'debug' : 'info';
     const configPath = path.join(entry, 'config.yaml');
 
-    const tryLoad: any = yaml.safeLoad(fs.readFileSync(configPath, { encoding: 'utf8' }));
+    const tryLoad: any = yaml.load(fs.readFileSync(configPath, { encoding: 'utf8' }));
     if (!tryLoad || typeof tryLoad !== 'object') {
         logger.fatal('Unable to parse config file');
         return;
