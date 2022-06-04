@@ -1,6 +1,7 @@
 export interface PommentThreadMetadata {
     uuid: string;
     title: string;
+    url: string;
     firstPostAt: number;
     latestPostAt: number;
     amount: number;

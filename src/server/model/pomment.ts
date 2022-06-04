@@ -64,6 +64,7 @@ export default class PommentDataContext {
         const args: PommentThreadMetadata = {
             uuid: PommentDataContext.assignThreadUUID(),
             title,
+            url,
             firstPostAt: 0,
             latestPostAt: 0,
             amount: 0,
@@ -181,6 +182,7 @@ export default class PommentDataContext {
         }
         const data = fetchedData ?? await this.getPosts(url);
         const postDates = data.map((e) => e.createdAt);
+        metadata.url = url;
         metadata.amount = data.filter((e) => !e.hidden).length;
         metadata.hiddenAmount = data.length - metadata.amount;
         metadata.firstPostAt = Math.min(...postDates);

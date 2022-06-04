@@ -118,6 +118,7 @@ function upgrade3(entry: string) {
 
         // 设置评论串的属性
         const item: PommentThreadMetadata = {
+            url: e.url,
             uuid: threadUUID,
             title: e.attributes.title,
             firstPostAt,
