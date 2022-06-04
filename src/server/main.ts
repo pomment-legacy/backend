@@ -50,8 +50,8 @@ function bootServer(entry: string) {
                 AjaxError(ctx as any, err.code);
             } else {
                 AjaxError(ctx as any, 500);
+                ctx.app.emit('error', err, ctx);
             }
-            ctx.app.emit('error', err, ctx);
         }
     });
     app.use((ctx, next) => {

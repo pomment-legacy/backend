@@ -24,6 +24,8 @@ export interface PommentPost {
     uuid: string
 }
 
+export type PommentSubmittedPost = Omit<PommentPost, 'uuid' | 'createdAt' | 'updatedAt' | 'origContent' | 'editKey'>
+
 // 以下为旧的类型声明
 
 export interface IPostQueryResults {

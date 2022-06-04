@@ -1,13 +1,17 @@
-import { PommentPost, PommentThreadMetadata } from '@/types/post';
+import { PommentPost, PommentSubmittedPost, PommentThreadMetadata } from '@/types/post';
 import fs from 'fs-extra';
 import path from 'path';
 import { PommentWebError } from '@/server/utils/error';
+import { v5 as uuidv5 } from 'uuid';
+import crypto from 'crypto';
 
 const textOptions = {
     encoding: 'utf8',
 };
 
 export default class PommentDataContext {
+    static MAIN_UUID = '91729628-42c2-4e60-8a45-593403a3ac67';
+
     workingDir: string;
 
     indexMap: Map<string, PommentThreadMetadata>
@@ -15,6 +19,20 @@ export default class PommentDataContext {
     constructor(workingDir: string) {
         this.workingDir = workingDir;
         this.indexMap = new Map<string, PommentThreadMetadata>(fs.readJSONSync(path.join(workingDir, 'index.json'), textOptions));
+    }
+
+    static assignThreadUUID() {
+        const now = +new Date();
+        return uuidv5(`pomment_${now}`, PommentDataContext.MAIN_UUID);
+    }
+
+    static assignPostUUID(threadUUID: string) {
+        const now = +new Date();
+        return uuidv5(`pomment_${now}`, threadUUID);
+    }
+
+    static assignEditKey() {
+        return crypto.randomBytes(16).toString('hex');
     }
 
     /**
@@ -75,7 +93,7 @@ export default class PommentDataContext {
      * @param data
      */
     public async putPosts(url: string, data: PommentPost[]) {
-        await fs.writeJSON(this.getThreadPath(url), data, textOptions);
+        await fs.writeJSON(this.getThreadPath(url), data, { ...textOptions, spaces: 4 });
     }
 
     /**
@@ -92,5 +110,30 @@ export default class PommentDataContext {
         }
         posts[targetId] = { ...data, uuid };
         await this.putPosts(url, posts);
+    }
+
+    /**
+     * 添加一条评论
+     * @param url
+     * @param data
+     */
+    public async createPost(url: string, data: PommentSubmittedPost) {
+        const metadata = this.getThreadMetadata(url);
+        if (!metadata) {
+            throw new PommentWebError(404);
+        }
+        const posts = await this.getPosts(url);
+        const now = +new Date();
+        const assignedPost: PommentPost = {
+            ...data,
+            createdAt: now,
+            updatedAt: now,
+            editKey: PommentDataContext.assignEditKey(),
+            origContent: data.content,
+            uuid: PommentDataContext.assignPostUUID(metadata.uuid),
+        };
+        posts.push(assignedPost);
+        await this.putPosts(url, posts);
+        return assignedPost;
     }
 }
