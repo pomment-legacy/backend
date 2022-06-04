@@ -26,7 +26,7 @@ const routeList = async (ctx: IContext) => {
             content: await pomment.getPosts(body.url),
         };
     } catch (e) {
-        if (e.code === 'ENOENT') {
+        if ((e as any).code === 'ENOENT') {
             ctx.response.body = {
                 url: body.url,
                 locked: false,

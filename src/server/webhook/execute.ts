@@ -35,7 +35,7 @@ const executeWebhook = async (list: IWebhookItem[], data: IWebhookRequest, logge
                 logger.info(`Response content: ${result.data}`);
             }
         } catch (e) {
-            logger.error(e.toString());
+            logger.error((e as any).toString());
             continue;
         }
     }

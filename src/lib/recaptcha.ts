@@ -40,7 +40,7 @@ const reCAPTCHA = async (config: IConfig, sec: string, res: string, logger: Logg
             hidden: false,
         };
     } catch (e) {
-        logger.error(e.toString());
+        logger.error((e as any).toString());
         return {
             score: 0,
             hidden: true,

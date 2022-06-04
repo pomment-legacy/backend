@@ -58,7 +58,7 @@ const routeSubmit = async (ctx: IContext) => {
         };
         ctx.response.body = userResult;
     } catch (e) {
-        logger.error(e.toString());
+        logger.error((e as any).toString());
         ctx.status = 500;
         return;
     }
