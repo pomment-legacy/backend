@@ -1,5 +1,5 @@
 import { PommentComputedContext } from '@/server/main';
-import messages, { PommentErrorCode } from '@/server/utils/messages';
+import error, { PommentErrorCode } from '@/server/utils/error';
 
 export function AjaxSuccess(ctx: PommentComputedContext, data?: any) {
     ctx.body = {
@@ -13,6 +13,6 @@ export function AjaxError(ctx: PommentComputedContext, code: PommentErrorCode) {
     ctx.body = {
         data: null,
         code,
-        message: messages[code],
+        message: error[code],
     };
 }
