@@ -7,10 +7,10 @@ import Router from 'koa-router';
 import log4js from 'log4js';
 import path from 'path';
 import yaml from 'js-yaml';
-import { Auth } from '../lib/auth';
-import { PommentData } from '../core/main';
-import { IConfig } from '../types/config';
-import { IPommentContext } from '../types/context';
+import { Auth } from '@/lib/auth';
+import { PommentData } from '@/core/main';
+import { IConfig } from '@/types/config';
+import { IPommentContext } from '@/types/context';
 import routeList from './route/list';
 import routeSubmit from './route/submit';
 import routeManageSubmit from './route/manage-submit';
@@ -20,6 +20,7 @@ import routeManageEdit from './route/manage-edit';
 import routeManageLock from './route/manage-lock';
 import routeManageEditTitle from './route/manage-edit-title';
 import routeManagePost from './route/manage-post';
+import { ControllerConfig } from '@/types/server';
 
 export type IContext =
     Koa.ParameterizedContext<{}, IPommentContext & Router.IRouterParamContext<{}, IPommentContext>>;
@@ -41,6 +42,7 @@ function bootServer(entry: string) {
     const pomment = new PommentData(entry);
     const auth = new Auth(config.siteAdmin.password);
 
+    // v3 routes
     router.post('/v3/list', routeList);
     router.post('/v3/submit', routeSubmit);
     router.post('/v3/manage/submit', routeManageSubmit);
@@ -50,7 +52,13 @@ function bootServer(entry: string) {
     router.post('/v3/manage/lock', routeManageLock);
     router.post('/v3/manage/edit-title', routeManageEditTitle);
     router.post('/v3/manage/post', routeManagePost);
-    // router.post('/auth-test', routeAuthTest);
+
+    // These v4 routes are injected automatically
+    const req = require.context('./controller', true, /\.ts$/);
+    req.keys().forEach((key: any) => {
+        const data: ControllerConfig = req(key).default;
+        router[data.method](`/v4${data.path}`, data.handler as any);
+    });
 
     if (process.env.NODE_ENV === 'development') {
         /**

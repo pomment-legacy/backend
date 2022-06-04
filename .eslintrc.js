@@ -37,6 +37,9 @@ module.exports = {
             node: {
                 extensions: ['.js', '.ts'],
             },
+            webpack: {
+                config: './webpack.common.js',
+            },
         },
     },
 };

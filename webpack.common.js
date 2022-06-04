@@ -12,7 +12,10 @@ module.exports = {
         filename: 'pomment.min.js',
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js'],
+        extensions: ['.ts', '.js'],
+        alias: {
+            '@': path.resolve(__dirname, 'src'),
+        },
     },
     module: {
         rules: [
