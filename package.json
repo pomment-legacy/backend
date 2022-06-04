@@ -8,7 +8,8 @@
     "test": "del-cli ./.temp && mocha",
     "build": "webpack --config webpack.prod.js",
     "lint": "eslint -c ./.eslintrc.js 'src/**/*.ts'",
-    "clean": "del-cli dist"
+    "clean": "del-cli dist",
+    "dev": "concurrently \"webpack --config webpack.dev.js\" \"nodemon ./dist/pomment.min.js server ./dev\""
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.12",
@@ -28,12 +29,14 @@
     "@types/webpack-env": "^1.17.0",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
+    "concurrently": "^7.2.1",
     "del-cli": "^4.0.1",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-import-resolver-webpack": "^0.13.2",
     "eslint-plugin-import": "^2.26.0",
     "mocha": "^9.0.3",
+    "nodemon": "^2.0.16",
     "terser-webpack-plugin": "^5.3.3",
     "ts-loader": "^9.3.0",
     "webpack": "^5.73.0",

@@ -18,6 +18,7 @@ export interface PommentConfig {
         name: string;
         email: string;
         password: string;
+        secret: string;
     };
     guestNotify: {
         title: string;

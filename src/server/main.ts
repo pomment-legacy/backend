@@ -12,6 +12,7 @@ import { PommentData } from '@/core/main';
 import { PommentConfig } from '@/types/config';
 import { PommentContext } from '@/types/context';
 import { ControllerConfig } from '@/types/server';
+import { checkPermission } from '@/server/permission';
 import routeList from './route/list';
 import routeSubmit from './route/submit';
 
@@ -48,6 +49,9 @@ function bootServer(entry: string) {
 
     app.use(kLogger());
     app.use((ctx, next) => {
+        ctx.$config = config;
+
+        // 兼容 v3 API
         ctx.userConfig = config;
         ctx.pomment = pomment;
         ctx.logLevel = logLevel;
@@ -56,6 +60,7 @@ function bootServer(entry: string) {
         return next();
     });
     app.use(body());
+    app.use(checkPermission);
     app.use(router.routes());
     app.use(json());
     app.listen(config.apiPort, config.apiHost);
