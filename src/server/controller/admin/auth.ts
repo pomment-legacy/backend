@@ -4,7 +4,7 @@ import { sign } from '@/server/permission';
 import { AjaxSuccess } from '@/server/utils/wrapper';
 
 function handler(ctx: PommentComputedContext) {
-    const expiresIn = 720;
+    const expiresIn = 60 * 60 * 12;
     const token = sign(ctx.$config.siteAdmin.name, ctx.$config.siteAdmin.secret, expiresIn);
     AjaxSuccess(ctx, { token, expiresIn });
 }
