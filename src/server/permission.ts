@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { PommentComputedContext } from '@/server/main';
 import Koa from 'koa';
+import { AjaxError } from '@/server/utils/wrapper';
 
 export function sign(user: string, secret: string, expiresIn: string | number) {
     return jwt.sign({ user }, secret, {
@@ -19,10 +20,15 @@ export function checkPermission(ctx: PommentComputedContext, next: Koa.Next) {
 
     const { authorization } = ctx.headers;
     if (!authorization || !authorization.startsWith('Bearer ')) {
-        ctx.body = { error: 'no token' };
+        AjaxError(ctx, 401);
         return false;
     }
     const token = authorization.slice(7);
-    console.log(verify(token, ctx.$config.siteAdmin.secret));
+    try {
+        verify(token, ctx.$config.siteAdmin.secret);
+    } catch (e) {
+        AjaxError(ctx, 401);
+        return false;
+    }
     return next();
 }

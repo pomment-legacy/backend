@@ -1,8 +1,9 @@
 import { ControllerConfig } from '@/types/server';
 import { PommentComputedContext } from '@/server/main';
+import { AjaxSuccess } from '@/server/utils/wrapper';
 
 function handler(ctx: PommentComputedContext) {
-    ctx.body = { success: 'true' };
+    AjaxSuccess(ctx);
 }
 
 const userInfo: ControllerConfig = {

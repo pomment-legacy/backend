@@ -1,10 +1,12 @@
 import { ControllerConfig } from '@/types/server';
 import { PommentComputedContext } from '@/server/main';
 import { sign } from '@/server/permission';
+import { AjaxSuccess } from '@/server/utils/wrapper';
 
 function handler(ctx: PommentComputedContext) {
-    const token = sign(ctx.$config.siteAdmin.name, ctx.$config.siteAdmin.secret, '12h');
-    ctx.body = { token };
+    const expiresIn = 720;
+    const token = sign(ctx.$config.siteAdmin.name, ctx.$config.siteAdmin.secret, expiresIn);
+    AjaxSuccess(ctx, { token, expiresIn });
 }
 
 const auth: ControllerConfig = {
