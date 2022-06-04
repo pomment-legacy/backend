@@ -180,6 +180,22 @@ export default class PommentDataContext {
         metadata.firstPostAt = Math.min(...postDates);
         metadata.latestPostAt = Math.max(...postDates);
         this.saveThreadList();
+        return metadata;
+    }
+
+    /**
+     * 更新元数据
+     */
+    public async updateThreadMetadata(url: string, editedData: {
+        title: string
+    }) {
+        const metadata = this.getThreadMetadata(url);
+        if (!metadata) {
+            throw new PommentWebError(404);
+        }
+        metadata.title = editedData.title;
+        this.saveThreadList();
+        return metadata;
     }
 
     /**
