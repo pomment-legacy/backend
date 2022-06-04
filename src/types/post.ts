@@ -4,6 +4,7 @@ export interface PommentThreadMetadata {
     firstPostAt: number;
     latestPostAt: number;
     amount: number;
+    hiddenAmount: number;
 }
 
 export interface PommentPost {

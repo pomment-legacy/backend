@@ -67,6 +67,7 @@ export default class PommentDataContext {
             firstPostAt: 0,
             latestPostAt: 0,
             amount: 0,
+            hiddenAmount: 0,
         };
         this.indexMap.set(url, args);
         return args;
@@ -79,7 +80,8 @@ export default class PommentDataContext {
      */
     public async getPosts(url: string, options: {
         reverse?: boolean,
-        safe?: boolean
+        safe?: boolean,
+        showAll?: boolean
     } = {}): Promise<PommentPost[]> {
         if (!fs.existsSync(this.getThreadPath(url))) {
             if (options.safe) {
@@ -87,11 +89,14 @@ export default class PommentDataContext {
             }
             throw new PommentWebError(404);
         }
-        const data = await fs.readJSON(this.getThreadPath(url), textOptions);
+        let data: PommentPost[] = await fs.readJSON(this.getThreadPath(url), textOptions);
         if (options.reverse) {
-            return data.reverse();
+            data = data.reverse();
         }
-        return data;
+        if (options.showAll) {
+            return data;
+        }
+        return data.filter((e) => !e.hidden);
     }
 
     /**
@@ -177,6 +182,7 @@ export default class PommentDataContext {
         const data = fetchedData ?? await this.getPosts(url);
         const postDates = data.map((e) => e.createdAt);
         metadata.amount = data.filter((e) => !e.hidden).length;
+        metadata.hiddenAmount = data.length - metadata.amount;
         metadata.firstPostAt = Math.min(...postDates);
         metadata.latestPostAt = Math.max(...postDates);
         this.saveThreadList();

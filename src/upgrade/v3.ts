@@ -123,6 +123,7 @@ function upgrade3(entry: string) {
             firstPostAt,
             latestPostAt,
             amount,
+            hiddenAmount: 0,
         };
 
         // 写入到键值对中

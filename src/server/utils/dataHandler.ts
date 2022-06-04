@@ -28,6 +28,7 @@ export interface PagedList<T> {
     rows: T[],
     pageSize?: number
     pageNum?: number
+    total: number
 }
 
 /**
@@ -40,11 +41,13 @@ export function paging<T>(data: T[], pageSize?: number, pageNum?: number): Paged
     if (!pageSize || !pageNum || pageSize <= 0 || pageNum <= 0) {
         return {
             rows: data,
+            total: data.length,
         };
     }
     return {
         rows: data.slice(pageSize * (pageNum - 1), pageSize * pageNum),
         pageSize,
         pageNum,
+        total: data.length,
     };
 }

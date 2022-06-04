@@ -8,11 +8,13 @@ async function handler(ctx: PommentComputedContext) {
     const url = base64url.decode(ctx.params.urlEncoded);
     const pageSize = Number(ctx.query.pageSize);
     const pageNum = Number(ctx.query.pageNum);
+    const showAll = ctx.query.showAll === 'true';
     AjaxSuccess(ctx, {
         url,
         metadata: ctx.$pomment.getThreadMetadata(url),
         posts: paging(await ctx.$pomment.getPosts(url, {
             reverse: true,
+            showAll,
         }), pageSize, pageNum),
     });
 }

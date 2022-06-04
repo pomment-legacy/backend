@@ -108,6 +108,7 @@ export class PommentData {
             amount: await this.getPostsAmount(url),
             firstPostAt: now,
             latestPostAt: now,
+            hiddenAmount: 0,
         });
         this.saveThreadList();
     }
