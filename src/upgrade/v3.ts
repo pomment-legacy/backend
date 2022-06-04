@@ -4,7 +4,7 @@ import path from 'path';
 import log4js from 'log4js';
 import yaml from 'js-yaml';
 import { v5 as uuidv5 } from 'uuid';
-import { IThreadItem, IPostQueryResults } from '../types/post';
+import { PommentThreadMetadata, IPostQueryResults } from '../types/post';
 import { PommentData } from '../core/main';
 import { PommentConfig, PommentNotifyType } from '../types/config';
 
@@ -69,7 +69,7 @@ function upgrade3(entry: string) {
 
     logger.info('Upgrading thread data to v3 format');
     const dataOld: IOldAttr[] = fs.readJSONSync(path.join(entry, 'index.json'), fsOpts);
-    const data: Map<string, IThreadItem> = new Map();
+    const data: Map<string, PommentThreadMetadata> = new Map();
     const total = {
         all: 0,
         displayed: 0,
@@ -117,7 +117,7 @@ function upgrade3(entry: string) {
         });
 
         // 设置评论串的属性
-        const item: IThreadItem = {
+        const item: PommentThreadMetadata = {
             uuid: threadUUID,
             title: e.attributes.title,
             firstPostAt,

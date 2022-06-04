@@ -7,14 +7,11 @@ import Router from 'koa-router';
 import log4js from 'log4js';
 import path from 'path';
 import yaml from 'js-yaml';
-import { Auth } from '@/lib/auth';
-import { PommentData } from '@/core/main';
 import { PommentConfig } from '@/types/config';
 import { PommentContext } from '@/types/context';
 import { ControllerConfig } from '@/types/server';
 import { checkPermission } from '@/server/permission';
-import routeList from './route/list';
-import routeSubmit from './route/submit';
+import PommentDataContext from '@/server/model/pomment';
 
 export type PommentComputedContext =
     Koa.ParameterizedContext<{}, PommentContext & Router.IRouterParamContext<{}, PommentContext>>;
@@ -33,12 +30,7 @@ function bootServer(entry: string) {
     const config: PommentConfig = tryLoad;
     const app = new Koa<{}, PommentContext>();
     const router = new Router<{}, PommentContext>();
-    const pomment = new PommentData(entry);
-    const auth = new Auth(config.siteAdmin.password);
-
-    // v3 routes
-    router.post('/v3/list', routeList);
-    router.post('/v3/submit', routeSubmit);
+    const pomment = new PommentDataContext(entry);
 
     // These v4 routes are injected automatically
     const req = require.context('./controller', true, /\.ts$/);
@@ -50,13 +42,7 @@ function bootServer(entry: string) {
     app.use(kLogger());
     app.use((ctx, next) => {
         ctx.$config = config;
-
-        // 兼容 v3 API
-        ctx.userConfig = config;
-        ctx.pomment = pomment;
-        ctx.logLevel = logLevel;
-        ctx.userAuth = auth;
-        ctx.userPath = entry;
+        ctx.$pomment = pomment;
         return next();
     });
     app.use(body());

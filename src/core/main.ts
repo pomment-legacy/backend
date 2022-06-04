@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import fs from 'fs-extra';
 import path from 'path';
 import { v5 as uuidv5 } from 'uuid';
-import { IPostItem, IPostQueryResults, IThreadItem } from '../types/post';
+import { IPostItem, IPostQueryResults, PommentThreadMetadata } from '../types/post';
 import SHA from '../lib/sha';
 import wipeInvalid from '../lib/wipe_invalid';
 
@@ -39,11 +39,11 @@ export class PommentData {
 
     public workingDir: string;
 
-    private indexMap: Map<string, IThreadItem>;
+    private indexMap: Map<string, PommentThreadMetadata>;
 
     constructor(workingDir: string) {
         this.workingDir = workingDir;
-        this.indexMap = new Map<string, IThreadItem>(fs.readJSONSync(path.join(workingDir, 'index.json'), fsOpts));
+        this.indexMap = new Map<string, PommentThreadMetadata>(fs.readJSONSync(path.join(workingDir, 'index.json'), fsOpts));
     }
 
     public getThreadPath(url: string, position = 'threads', ext = 'json') {

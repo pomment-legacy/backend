@@ -1,4 +1,4 @@
-import { IPostQueryResults, IThreadItem } from './post';
+import { IPostQueryResults, PommentThreadMetadata } from './post';
 import { IAuth } from '../lib/auth';
 
 // eslint-disable-next-line no-shadow
@@ -10,7 +10,7 @@ export interface IWebhookRequest {
     event: EventName;
     auth: IAuth | null;
     url: string;
-    thread: IThreadItem;
+    thread: PommentThreadMetadata;
     post: IPostQueryResults;
     parent: IPostQueryResults | null;
 }
