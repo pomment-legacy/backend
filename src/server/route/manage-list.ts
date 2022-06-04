@@ -1,13 +1,13 @@
 import log4js from 'log4js';
 import { IAuth } from '../../lib/auth';
-import { IContext } from '../main';
+import { PommentComputedContext } from '../main';
 
 export interface IManageListBody {
     auth: IAuth;
     url: string;
 }
 
-const routeManageList = async (ctx: IContext) => {
+const routeManageList = async (ctx: PommentComputedContext) => {
     const logger = log4js.getLogger('Server: /v3/manage/list');
     logger.level = ctx.logLevel;
     const body: IManageListBody = ctx.request.body;

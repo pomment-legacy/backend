@@ -15,7 +15,7 @@ import { ControllerConfig } from '@/types/server';
 import routeList from './route/list';
 import routeSubmit from './route/submit';
 
-export type IContext =
+export type PommentComputedContext =
     Koa.ParameterizedContext<{}, PommentContext & Router.IRouterParamContext<{}, PommentContext>>;
 
 function bootServer(entry: string) {

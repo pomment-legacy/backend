@@ -4,7 +4,7 @@ import { IPostQueryResults } from '../../types/post';
 import { IWebhookRequest, EventName } from '../../types/webhook';
 import checkSubmit from '../../lib/check_submit';
 import reCAPTCHA from '../../lib/recaptcha';
-import { IContext } from '../main';
+import { PommentComputedContext } from '../main';
 import executeWebhook from '../webhook/execute';
 import sendNotify from '../notify/main';
 
@@ -20,7 +20,7 @@ export interface ISubmitBody {
     url: string;
 }
 
-const routeSubmit = async (ctx: IContext) => {
+const routeSubmit = async (ctx: PommentComputedContext) => {
     const logger = log4js.getLogger('Server: /v3/submit');
     logger.level = ctx.logLevel;
     const body: ISubmitBody = ctx.request.body;

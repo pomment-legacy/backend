@@ -1,5 +1,5 @@
 import log4js from 'log4js';
-import { IContext } from '../main';
+import { PommentComputedContext } from '../main';
 
 export interface IListBody {
     url: string;
@@ -14,7 +14,7 @@ export interface IListBody {
  *  * `url`: 评论串源地址
  * @param ctx 上下文
  */
-const routeList = async (ctx: IContext) => {
+const routeList = async (ctx: PommentComputedContext) => {
     const logger = log4js.getLogger('Server: /v3/list');
     logger.level = ctx.logLevel;
     const body: IListBody = ctx.request.body;

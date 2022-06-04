@@ -1,9 +1,9 @@
 import nodemailer from 'nodemailer';
 import htmlToText from 'html-to-text';
 import log4js from 'log4js';
-import { IContext } from '../main';
+import { PommentComputedContext } from '../main';
 
-const sendBySMTP = async (ctx: IContext, to: string, subject: string, content: string) => {
+const sendBySMTP = async (ctx: PommentComputedContext, to: string, subject: string, content: string) => {
     const config = ctx.userConfig;
     const logger = log4js.getLogger('SMTP');
     logger.level = ctx.logLevel;

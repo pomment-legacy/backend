@@ -1,8 +1,8 @@
 import mailgun from 'mailgun-js';
 import log4js from 'log4js';
-import { IContext } from '../main';
+import { PommentComputedContext } from '../main';
 
-const sendByMailgun = async (ctx: IContext, to: string, subject: string, content: string) => {
+const sendByMailgun = async (ctx: PommentComputedContext, to: string, subject: string, content: string) => {
     const config = ctx.userConfig;
     const logger = log4js.getLogger('Mailgun');
     logger.level = ctx.logLevel;

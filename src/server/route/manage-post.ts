@@ -1,6 +1,6 @@
 import log4js from 'log4js';
 import { IAuth } from '../../lib/auth';
-import { IContext } from '../main';
+import { PommentComputedContext } from '../main';
 
 export interface IManagePostBody {
     auth: IAuth;
@@ -8,7 +8,7 @@ export interface IManagePostBody {
     uuid: string;
 }
 
-const routeManagePost = async (ctx: IContext) => {
+const routeManagePost = async (ctx: PommentComputedContext) => {
     const logger = log4js.getLogger('Server: /v3/manage/post');
     logger.level = ctx.logLevel;
     const body: IManagePostBody = ctx.request.body;

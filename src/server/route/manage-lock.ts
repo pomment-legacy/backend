@@ -1,6 +1,6 @@
 import log4js from 'log4js';
 import { IAuth } from '../../lib/auth';
-import { IContext } from '../main';
+import { PommentComputedContext } from '../main';
 
 export interface IManageLockBody {
     auth: IAuth;
@@ -8,7 +8,7 @@ export interface IManageLockBody {
     locked: boolean;
 }
 
-const routeManageLock = async (ctx: IContext) => {
+const routeManageLock = async (ctx: PommentComputedContext) => {
     const logger = log4js.getLogger('Server: /v3/manage/lock');
     logger.level = ctx.logLevel;
     const body: IManageLockBody = ctx.request.body;

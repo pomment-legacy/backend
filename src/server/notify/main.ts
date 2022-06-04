@@ -4,7 +4,7 @@ import log4js from 'log4js';
 import path from 'path';
 import { IPostQueryResults } from '../../types/post';
 import escapeHTML from './espace';
-import { IContext } from '../main';
+import { PommentComputedContext } from '../main';
 import { PommentNotifyType } from '../../types/config';
 import sendBySMTP from './smtp';
 import sendByMailgun from './mailgun';
@@ -16,7 +16,7 @@ interface IReplacePlan {
 }
 
 const sendNotify = async (
-    ctx: IContext,
+    ctx: PommentComputedContext,
     url: string,
     title: string,
     main: IPostQueryResults,

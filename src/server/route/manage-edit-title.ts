@@ -1,6 +1,6 @@
 import log4js from 'log4js';
 import { IAuth } from '../../lib/auth';
-import { IContext } from '../main';
+import { PommentComputedContext } from '../main';
 
 export interface IManageEditTitleBody {
     auth: IAuth;
@@ -8,7 +8,7 @@ export interface IManageEditTitleBody {
     title: string;
 }
 
-const routeManageEditTitle = async (ctx: IContext) => {
+const routeManageEditTitle = async (ctx: PommentComputedContext) => {
     const logger = log4js.getLogger('Server: /v3/manage/edit-title');
     logger.level = ctx.logLevel;
     const body: IManageEditTitleBody = ctx.request.body;

@@ -2,7 +2,7 @@ import log4js from 'log4js';
 import { IPostQueryResults } from '../../types/post';
 import { IWebhookRequest, EventName } from '../../types/webhook';
 import { IAuth } from '../../lib/auth';
-import { IContext } from '../main';
+import { PommentComputedContext } from '../main';
 import executeWebhook from '../webhook/execute';
 import sendNotify from '../notify/main';
 
@@ -14,7 +14,7 @@ export interface IManageSubmitBody {
     url: string;
 }
 
-const routeManageSubmit = async (ctx: IContext) => {
+const routeManageSubmit = async (ctx: PommentComputedContext) => {
     const logger = log4js.getLogger('Server: /v3/manage/submit');
     logger.level = ctx.logLevel;
     const body: IManageSubmitBody = ctx.request.body;
