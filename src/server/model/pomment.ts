@@ -40,15 +40,21 @@ export default class PommentDataContext {
     }
 
     /**
-     * 获取评论（未过滤）
+     * 获取多条评论（未过滤）
      * @param url
+     * @param options
      */
-    public async getPosts(url: string): Promise<PommentPost[]> {
+    public async getPosts(url: string, options: {
+        reverse?: boolean
+    } = {}): Promise<PommentPost[]> {
         if (!fs.existsSync(this.getThreadPath(url))) {
             throw new PommentWebError(404);
         }
         const data = await fs.readJSON(this.getThreadPath(url), textOptions);
-        return data.reverse();
+        if (options.reverse) {
+            return data.reverse();
+        }
+        return data;
     }
 
     /**
@@ -61,5 +67,30 @@ export default class PommentDataContext {
             throw new PommentWebError(404);
         }
         return post;
+    }
+
+    /**
+     * 写入多条评论（覆盖整个评论串）
+     * @param url
+     * @param data
+     */
+    public async putPosts(url: string, data: PommentPost[]) {
+        await fs.writeJSON(this.getThreadPath(url), data, textOptions);
+    }
+
+    /**
+     * 编辑一条评论
+     * @param url
+     * @param uuid
+     * @param data
+     */
+    public async putPost(url: string, uuid: string, data: PommentPost) {
+        const posts = await this.getPosts(url);
+        const targetId = posts.findIndex((e, i) => e?.uuid === uuid);
+        if (targetId < 0) {
+            throw new PommentWebError(404);
+        }
+        posts[targetId] = { ...data, uuid };
+        await this.putPosts(url, posts);
     }
 }
