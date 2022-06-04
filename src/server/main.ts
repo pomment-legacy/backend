@@ -12,6 +12,7 @@ import { PommentContext } from '@/types/context';
 import { ControllerConfig } from '@/types/server';
 import { checkPermission } from '@/server/permission';
 import PommentDataContext from '@/server/model/pomment';
+import { AjaxError } from '@/server/utils/wrapper';
 
 export type PommentComputedContext =
     Koa.ParameterizedContext<{}, PommentContext & Router.IRouterParamContext<{}, PommentContext>>;
@@ -40,6 +41,14 @@ function bootServer(entry: string) {
     });
 
     app.use(kLogger());
+    app.use(async (ctx, next) => {
+        try {
+            await next();
+        } catch (err) {
+            AjaxError(ctx as any, 500);
+            ctx.app.emit('error', err, ctx);
+        }
+    });
     app.use((ctx, next) => {
         ctx.$config = config;
         ctx.$pomment = pomment;

@@ -5,18 +5,17 @@ import { AjaxSuccess } from '@/server/utils/wrapper';
 
 async function handler(ctx: PommentComputedContext) {
     const url = base64url.decode(ctx.params.urlEncoded);
-    const uuid = ctx.params.uuid;
     AjaxSuccess(ctx, {
         url,
         metadata: ctx.$pomment.getThreadMetadata(url),
-        post: await ctx.$pomment.getPost(url, uuid),
+        posts: await ctx.$pomment.getPosts(url),
     });
 }
 
-const post: ControllerConfig = {
+const thread: ControllerConfig = {
     method: 'get',
-    path: '/admin/post/:urlEncoded/:uuid',
+    path: '/admin/thread/:urlEncoded',
     handler,
 };
 
-export default post;
+export default thread;

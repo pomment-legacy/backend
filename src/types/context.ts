@@ -1,5 +1,3 @@
-import { Auth } from '@/lib/auth';
-import { PommentData } from '@/core/main';
 import PommentDataContext from '@/server/model/pomment';
 import { PommentConfig } from './config';
 

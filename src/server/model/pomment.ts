@@ -45,4 +45,12 @@ export default class PommentDataContext {
     public getPosts(url: string): Promise<PommentPost[]> {
         return fs.readJSON(this.getThreadPath(url), textOptions);
     }
+
+    /**
+     * 获取一条评论（未过滤）
+     */
+    public async getPost(url: string, uuid: string): Promise<PommentPost | undefined> {
+        const posts = await this.getPosts(url);
+        return posts.find((e) => e.uuid === uuid);
+    }
 }
