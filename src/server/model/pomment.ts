@@ -58,6 +58,21 @@ export default class PommentDataContext {
     }
 
     /**
+     * 初始化评论串的元数据
+     */
+    public initThreadMetadata(url: string, title: string) {
+        const args: PommentThreadMetadata = {
+            uuid: PommentDataContext.assignThreadUUID(),
+            title,
+            firstPostAt: 0,
+            latestPostAt: 0,
+            amount: 0,
+        };
+        this.indexMap.set(url, args);
+        return args;
+    }
+
+    /**
      * 获取多条评论（未过滤）
      * @param url
      * @param options
@@ -92,7 +107,7 @@ export default class PommentDataContext {
      * @param url
      * @param data
      */
-    public async putPosts(url: string, data: PommentPost[]) {
+    public async savePosts(url: string, data: PommentPost[]) {
         await fs.writeJSON(this.getThreadPath(url), data, { ...textOptions, spaces: 4 });
     }
 
@@ -102,25 +117,28 @@ export default class PommentDataContext {
      * @param uuid
      * @param data
      */
-    public async putPost(url: string, uuid: string, data: PommentPost) {
+    public async setPost(url: string, uuid: string, data: PommentPost) {
         const posts = await this.getPosts(url);
         const targetId = posts.findIndex((e, i) => e?.uuid === uuid);
         if (targetId < 0) {
             throw new PommentWebError(404);
         }
         posts[targetId] = { ...data, uuid };
-        await this.putPosts(url, posts);
+        await this.savePosts(url, posts);
     }
 
     /**
      * 添加一条评论
      * @param url
      * @param data
+     * @param options
      */
-    public async createPost(url: string, data: PommentSubmittedPost) {
-        const metadata = this.getThreadMetadata(url);
+    public async createPost(url: string, data: PommentSubmittedPost, options: {
+        title?: string
+    } = {}) {
+        let metadata = this.getThreadMetadata(url);
         if (!metadata) {
-            throw new PommentWebError(404);
+            metadata = this.initThreadMetadata(url, options.title ?? '');
         }
         const posts = await this.getPosts(url);
         const now = +new Date();
@@ -133,7 +151,34 @@ export default class PommentDataContext {
             uuid: PommentDataContext.assignPostUUID(metadata.uuid),
         };
         posts.push(assignedPost);
-        await this.putPosts(url, posts);
+        await this.savePosts(url, posts);
+        await this.updateCounter(url, posts);
         return assignedPost;
+    }
+
+    /**
+     * 更新计数器
+     * @param url
+     * @param fetchedData
+     */
+    public async updateCounter(url: string, fetchedData?: PommentPost[]) {
+        const metadata = this.getThreadMetadata(url);
+        if (!metadata) {
+            throw new PommentWebError(404);
+        }
+        const data = fetchedData ?? await this.getPosts(url);
+        const postDates = data.map((e) => e.createdAt);
+        metadata.amount = data.filter((e) => !e.hidden).length;
+        metadata.firstPostAt = Math.min(...postDates);
+        metadata.latestPostAt = Math.max(...postDates);
+        this.saveThreadList();
+    }
+
+    /**
+     * 保存评论串列表到磁盘
+     * @private
+     */
+    private saveThreadList() {
+        fs.writeJSONSync(path.join(this.workingDir, 'index.json'), [...this.indexMap], { ...textOptions, spaces: 4 });
     }
 }

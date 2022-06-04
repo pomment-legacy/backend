@@ -8,7 +8,7 @@ async function handler(ctx: PommentComputedContext) {
     const url = base64url.decode(ctx.params.urlEncoded);
     const uuid = ctx.params.uuid;
     const data = ctx.request.body as PommentPost;
-    await ctx.$pomment.putPost(url, uuid, data);
+    await ctx.$pomment.setPost(url, uuid, data);
     AjaxSuccess(ctx, {
         url,
         metadata: ctx.$pomment.getThreadMetadata(url),
