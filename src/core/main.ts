@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import fs from 'fs-extra';
 import path from 'path';
 import { v5 as uuidv5 } from 'uuid';
-import { IPostItem, IPostQueryResults, IThreadItem } from '../interface/post';
+import { IPostItem, IPostQueryResults, IThreadItem } from '../types/post';
 import SHA from '../lib/sha';
 import wipeInvalid from '../lib/wipe_invalid';
 

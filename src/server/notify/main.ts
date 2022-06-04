@@ -2,10 +2,10 @@ import base64url from 'base64url';
 import fs from 'fs';
 import log4js from 'log4js';
 import path from 'path';
-import { IPostQueryResults } from '../../interface/post';
+import { IPostQueryResults } from '../../types/post';
 import escapeHTML from './espace';
 import { IContext } from '../main';
-import { NotifyType } from '../../interface/config';
+import { NotifyType } from '../../types/config';
 import sendBySMTP from './smtp';
 import sendByMailgun from './mailgun';
 

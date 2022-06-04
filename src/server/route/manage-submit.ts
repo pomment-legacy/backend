@@ -1,6 +1,6 @@
 import log4js from 'log4js';
-import { IPostQueryResults } from '../../interface/post';
-import { IWebhookRequest, EventName } from '../../interface/webhook';
+import { IPostQueryResults } from '../../types/post';
+import { IWebhookRequest, EventName } from '../../types/webhook';
 import { IAuth } from '../../lib/auth';
 import { IContext } from '../main';
 import executeWebhook from '../webhook/execute';

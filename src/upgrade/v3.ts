@@ -4,9 +4,9 @@ import path from 'path';
 import log4js from 'log4js';
 import yaml from 'js-yaml';
 import { v5 as uuidv5 } from 'uuid';
-import { IThreadItem, IPostQueryResults } from '../interface/post';
+import { IThreadItem, IPostQueryResults } from '../types/post';
 import { PommentData } from '../core/main';
-import { IConfig, NotifyType } from '../interface/config';
+import { IConfig, NotifyType } from '../types/config';
 
 const fsOpts = { encoding: 'utf8' };
 

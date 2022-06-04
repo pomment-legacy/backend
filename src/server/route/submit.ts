@@ -1,7 +1,7 @@
 import log4js from 'log4js';
 import { sanitizeUrl } from '@braintree/sanitize-url';
-import { IPostQueryResults } from '../../interface/post';
-import { IWebhookRequest, EventName } from '../../interface/webhook';
+import { IPostQueryResults } from '../../types/post';
+import { IWebhookRequest, EventName } from '../../types/webhook';
 import checkSubmit from '../../lib/check_submit';
 import reCAPTCHA from '../../lib/recaptcha';
 import { IContext } from '../main';

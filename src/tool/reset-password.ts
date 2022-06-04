@@ -6,7 +6,7 @@ import prompt from 'prompt-sync';
 import yaml from 'js-yaml';
 import fs from 'fs-extra';
 import sha from '../lib/sha';
-import { IConfig } from '../interface/config';
+import { IConfig } from '../types/config';
 
 function resetPassword(entry: string) {
     const logger = log4js.getLogger('Password');

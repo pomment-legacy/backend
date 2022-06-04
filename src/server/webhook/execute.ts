@@ -5,9 +5,9 @@
 import axios from 'axios';
 import crypto from 'crypto';
 import { Logger } from 'log4js';
-import { IWebhookRequest } from '../../interface/webhook';
+import { IWebhookRequest } from '../../types/webhook';
 import { IAuth } from '../../lib/auth';
-import { IWebhookItem } from '../../interface/config';
+import { IWebhookItem } from '../../types/config';
 
 const executeWebhook = async (list: IWebhookItem[], data: IWebhookRequest, logger: Logger) => {
     if (!list) {

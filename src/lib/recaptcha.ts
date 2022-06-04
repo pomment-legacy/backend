@@ -1,6 +1,6 @@
 import { Logger } from 'log4js';
 import axios from 'axios';
-import { IConfig } from '../interface/config';
+import { IConfig } from '../types/config';
 
 //  https://developers.google.com/recaptcha/docs/v3
 interface IResult {
