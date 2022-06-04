@@ -6,7 +6,7 @@ import yaml from 'js-yaml';
 import { v5 as uuidv5 } from 'uuid';
 import { IThreadItem, IPostQueryResults } from '../types/post';
 import { PommentData } from '../core/main';
-import { IConfig, NotifyType } from '../types/config';
+import { PommentConfig, PommentNotifyType } from '../types/config';
 
 const fsOpts = { encoding: 'utf8' };
 
@@ -39,14 +39,14 @@ function upgrade3(entry: string) {
     const oldConfig = fs.readJSONSync(path.join(entry, 'config.json'), fsOpts);
     delete oldConfig.reCAPTCHA.siteKey;
 
-    const newConfig: IConfig = {
+    const newConfig: PommentConfig = {
         apiHost: oldConfig.apiHost,
         apiPort: oldConfig.apiPort,
         apiURL: 'http://example.com',
         siteAdmin: oldConfig.siteAdmin,
         reCAPTCHA: oldConfig.reCAPTCHA,
         guestNotify: {
-            mode: NotifyType.none,
+            mode: PommentNotifyType.none,
             title: '',
             smtpSender: '',
             smtpHost: '',

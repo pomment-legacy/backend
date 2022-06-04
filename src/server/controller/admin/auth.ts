@@ -1,13 +1,11 @@
 import { ControllerConfig } from '@/types/server';
 
+function handler() {}
+
 const auth: ControllerConfig = {
     method: 'get',
     path: '/admin/test',
-    handler(ctx: any) {
-        ctx.response.body = {
-            code: 0,
-        };
-    },
+    handler,
 };
 
 export default auth;

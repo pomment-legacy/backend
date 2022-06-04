@@ -1,4 +1,16 @@
-export interface IConfig {
+export interface PommentWebhookItem {
+    url: string;
+    token: string | null;
+}
+
+// eslint-disable-next-line no-shadow
+export enum PommentNotifyType {
+    smtp = 'smtp',
+    mailgun = 'mailgun',
+    none = 'none'
+}
+
+export interface PommentConfig {
     apiHost: string;
     apiPort: number;
     apiURL: string;
@@ -9,7 +21,7 @@ export interface IConfig {
     };
     guestNotify: {
         title: string;
-        mode: NotifyType;
+        mode: PommentNotifyType;
         smtpSender: string;
         smtpHost: string;
         smtpPort: number;
@@ -26,17 +38,6 @@ export interface IConfig {
     };
     webhook: {
         enabled: boolean;
-        targets: IWebhookItem[];
+        targets: PommentWebhookItem[];
     }
-}
-
-export interface IWebhookItem {
-    url: string;
-    token: string | null;
-}
-
-export enum NotifyType {
-    smtp = 'smtp',
-    mailgun = 'mailgun',
-    none = 'none'
 }

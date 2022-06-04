@@ -6,7 +6,7 @@ import prompt from 'prompt-sync';
 import yaml from 'js-yaml';
 import fs from 'fs-extra';
 import sha from '../lib/sha';
-import { IConfig } from '../types/config';
+import { PommentConfig } from '../types/config';
 
 function resetPassword(entry: string) {
     const logger = log4js.getLogger('Password');
@@ -32,7 +32,7 @@ function resetPassword(entry: string) {
         process.stderr.write('Unable to parse config file.\n');
         return;
     }
-    const config: IConfig = tryLoad;
+    const config: PommentConfig = tryLoad;
     config.siteAdmin.password = sha.sha512(password);
 
     process.stderr.write('Writing new password to config file...\n');

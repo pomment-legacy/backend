@@ -1,9 +1,9 @@
-import { Auth } from '../lib/auth';
-import { PommentData } from '../core/main';
-import { IConfig } from './config';
+import { Auth } from '@/lib/auth';
+import { PommentData } from '@/core/main';
+import { PommentConfig } from './config';
 
-export interface IPommentContext {
-    userConfig: IConfig;
+export interface PommentContext {
+    userConfig: PommentConfig;
     pomment: PommentData;
     logLevel: string;
     userAuth: Auth;

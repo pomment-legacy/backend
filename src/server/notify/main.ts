@@ -5,7 +5,7 @@ import path from 'path';
 import { IPostQueryResults } from '../../types/post';
 import escapeHTML from './espace';
 import { IContext } from '../main';
-import { NotifyType } from '../../types/config';
+import { PommentNotifyType } from '../../types/config';
 import sendBySMTP from './smtp';
 import sendByMailgun from './mailgun';
 
@@ -25,7 +25,7 @@ const sendNotify = async (
     const config = ctx.userConfig;
     const logger = log4js.getLogger('Notify');
     logger.level = ctx.logLevel;
-    if (!config.guestNotify || config.guestNotify.mode === NotifyType.none) {
+    if (!config.guestNotify || config.guestNotify.mode === PommentNotifyType.none) {
         logger.info('Notify mode not set!');
         return;
     }
@@ -48,13 +48,13 @@ const sendNotify = async (
     });
     try {
         switch (config.guestNotify.mode) {
-        case NotifyType.smtp: {
+        case PommentNotifyType.smtp: {
             // smtp
             logger.info('Sending through SMTP ...');
             await sendBySMTP(ctx, parent.email, mailTitle, mailData);
             break;
         }
-        case NotifyType.mailgun: {
+        case PommentNotifyType.mailgun: {
             // mailgun
             logger.info('Sending through Mailgun ...');
             await sendByMailgun(ctx, parent.email, mailTitle, mailData);

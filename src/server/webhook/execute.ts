@@ -7,9 +7,9 @@ import crypto from 'crypto';
 import { Logger } from 'log4js';
 import { IWebhookRequest } from '../../types/webhook';
 import { IAuth } from '../../lib/auth';
-import { IWebhookItem } from '../../types/config';
+import { PommentWebhookItem } from '../../types/config';
 
-const executeWebhook = async (list: IWebhookItem[], data: IWebhookRequest, logger: Logger) => {
+const executeWebhook = async (list: PommentWebhookItem[], data: IWebhookRequest, logger: Logger) => {
     if (!list) {
         logger.debug('No webhooks!');
         return;

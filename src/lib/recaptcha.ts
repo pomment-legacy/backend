@@ -1,6 +1,6 @@
 import { Logger } from 'log4js';
 import axios from 'axios';
-import { IConfig } from '@/types/config';
+import { PommentConfig } from '@/types/config';
 
 //  https://developers.google.com/recaptcha/docs/v3
 interface IResult {
@@ -13,7 +13,7 @@ interface IResult {
     'error-codes': any;
 }
 
-const reCAPTCHA = async (config: IConfig, sec: string, res: string, logger: Logger) => {
+const reCAPTCHA = async (config: PommentConfig, sec: string, res: string, logger: Logger) => {
     try {
         const params = new URLSearchParams();
         params.append('secret', sec);

@@ -9,21 +9,14 @@ import path from 'path';
 import yaml from 'js-yaml';
 import { Auth } from '@/lib/auth';
 import { PommentData } from '@/core/main';
-import { IConfig } from '@/types/config';
-import { IPommentContext } from '@/types/context';
+import { PommentConfig } from '@/types/config';
+import { PommentContext } from '@/types/context';
+import { ControllerConfig } from '@/types/server';
 import routeList from './route/list';
 import routeSubmit from './route/submit';
-import routeManageSubmit from './route/manage-submit';
-import routeManageList from './route/manage-list';
-import routeManageThreads from './route/manage-threads';
-import routeManageEdit from './route/manage-edit';
-import routeManageLock from './route/manage-lock';
-import routeManageEditTitle from './route/manage-edit-title';
-import routeManagePost from './route/manage-post';
-import { ControllerConfig } from '@/types/server';
 
 export type IContext =
-    Koa.ParameterizedContext<{}, IPommentContext & Router.IRouterParamContext<{}, IPommentContext>>;
+    Koa.ParameterizedContext<{}, PommentContext & Router.IRouterParamContext<{}, PommentContext>>;
 
 function bootServer(entry: string) {
     const logger = log4js.getLogger('Main');
@@ -36,22 +29,15 @@ function bootServer(entry: string) {
         return;
     }
 
-    const config: IConfig = tryLoad;
-    const app = new Koa<{}, IPommentContext>();
-    const router = new Router<{}, IPommentContext>();
+    const config: PommentConfig = tryLoad;
+    const app = new Koa<{}, PommentContext>();
+    const router = new Router<{}, PommentContext>();
     const pomment = new PommentData(entry);
     const auth = new Auth(config.siteAdmin.password);
 
     // v3 routes
     router.post('/v3/list', routeList);
     router.post('/v3/submit', routeSubmit);
-    router.post('/v3/manage/submit', routeManageSubmit);
-    router.post('/v3/manage/list', routeManageList);
-    router.post('/v3/manage/threads', routeManageThreads);
-    router.post('/v3/manage/edit', routeManageEdit);
-    router.post('/v3/manage/lock', routeManageLock);
-    router.post('/v3/manage/edit-title', routeManageEditTitle);
-    router.post('/v3/manage/post', routeManagePost);
 
     // These v4 routes are injected automatically
     const req = require.context('./controller', true, /\.ts$/);
@@ -59,25 +45,6 @@ function bootServer(entry: string) {
         const data: ControllerConfig = req(key).default;
         router[data.method](`/v4${data.path}`, data.handler as any);
     });
-
-    if (process.env.NODE_ENV === 'development') {
-        /**
-         * 只有在 development 模式下才会增加 AJAX 所需的 header 和 OPTIONS 请求响应。
-         * 在生产模式中，应当在 nginx、Caddy 等专门 HTTP 服务器反代时进行设置。
-         */
-        router.options('(.*)', (ctx) => {
-            ctx.status = 200;
-            return true;
-        });
-        app.use((ctx, next) => {
-            ctx.set('Access-Control-Allow-Origin', '*');
-            ctx.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
-            ctx.set('Access-Control-Max-Age', '3600');
-            ctx.set('Access-Control-Allow-Headers', 'x-requested-with, Authorization, Content-Type, Accept');
-            ctx.set('Access-Control-Allow-Credentials', 'true');
-            return next();
-        });
-    }
 
     app.use(kLogger());
     app.use((ctx, next) => {
