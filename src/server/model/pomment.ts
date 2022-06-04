@@ -104,7 +104,9 @@ export default class PommentDataContext {
      * 获取一条评论（未过滤）
      */
     public async getPost(url: string, uuid: string): Promise<PommentPost> {
-        const posts = await this.getPosts(url);
+        const posts = await this.getPosts(url, {
+            showAll: true,
+        });
         const post = posts.find((e) => e.uuid === uuid);
         if (!post) {
             throw new PommentWebError(404);
@@ -128,7 +130,9 @@ export default class PommentDataContext {
      * @param data
      */
     public async setPost(url: string, uuid: string, data: PommentPost) {
-        const posts = await this.getPosts(url);
+        const posts = await this.getPosts(url, {
+            showAll: true,
+        });
         const targetId = posts.findIndex((e, i) => e?.uuid === uuid);
         if (targetId < 0) {
             throw new PommentWebError(404);
@@ -154,6 +158,7 @@ export default class PommentDataContext {
         }
         const posts = await this.getPosts(url, {
             safe: true,
+            showAll: true,
         });
         const now = +new Date();
         const assignedPost: PommentPost = {
@@ -180,7 +185,9 @@ export default class PommentDataContext {
         if (!metadata) {
             throw new PommentWebError(404);
         }
-        const data = fetchedData ?? await this.getPosts(url);
+        const data = fetchedData ?? await this.getPosts(url, {
+            showAll: true,
+        });
         const postDates = data.map((e) => e.createdAt);
         metadata.url = url;
         metadata.amount = data.filter((e) => !e.hidden).length;

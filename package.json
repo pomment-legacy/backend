@@ -9,7 +9,8 @@
     "build": "webpack --config webpack.prod.js",
     "lint": "eslint -c ./.eslintrc.js 'src/**/*.ts'",
     "clean": "del-cli dist",
-    "dev": "concurrently \"webpack --config webpack.dev.js\" \"nodemon ./dist/pomment.min.js server ./dev\""
+    "dev": "concurrently \"webpack --config webpack.dev.js\" \"nodemon ./dist/pomment.min.js server ./dev\"",
+    "preview": "node ./dist/pomment.min.js server ./dev"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.12",
