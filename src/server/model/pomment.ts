@@ -78,9 +78,13 @@ export default class PommentDataContext {
      * @param options
      */
     public async getPosts(url: string, options: {
-        reverse?: boolean
+        reverse?: boolean,
+        safe?: boolean
     } = {}): Promise<PommentPost[]> {
         if (!fs.existsSync(this.getThreadPath(url))) {
+            if (options.safe) {
+                return [];
+            }
             throw new PommentWebError(404);
         }
         const data = await fs.readJSON(this.getThreadPath(url), textOptions);
@@ -125,6 +129,8 @@ export default class PommentDataContext {
         }
         posts[targetId] = { ...data, uuid };
         await this.savePosts(url, posts);
+        await this.updateCounter(url, posts);
+        return posts[targetId];
     }
 
     /**
@@ -140,7 +146,9 @@ export default class PommentDataContext {
         if (!metadata) {
             metadata = this.initThreadMetadata(url, options.title ?? '');
         }
-        const posts = await this.getPosts(url);
+        const posts = await this.getPosts(url, {
+            safe: true,
+        });
         const now = +new Date();
         const assignedPost: PommentPost = {
             ...data,
