@@ -23,3 +23,28 @@ export function reserveKey(data: any, key: string[]): any {
     });
     return newData;
 }
+
+export interface PagedList<T> {
+    rows: T[],
+    pageSize?: number
+    pageNum?: number
+}
+
+/**
+ * 分页
+ * @param data
+ * @param pageSize
+ * @param pageNum
+ */
+export function paging<T>(data: T[], pageSize?: number, pageNum?: number): PagedList<T> {
+    if (!pageSize || !pageNum || pageSize <= 0 || pageNum <= 0) {
+        return {
+            rows: data,
+        };
+    }
+    return {
+        rows: data.slice(pageSize * (pageNum - 1), pageSize * pageNum),
+        pageSize,
+        pageNum,
+    };
+}

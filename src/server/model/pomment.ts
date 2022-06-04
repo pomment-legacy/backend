@@ -1,6 +1,7 @@
 import { PommentPost, PommentThreadMetadata } from '@/types/post';
 import fs from 'fs-extra';
 import path from 'path';
+import { PommentWebError } from '@/server/utils/error';
 
 const textOptions = {
     encoding: 'utf8',
@@ -42,15 +43,23 @@ export default class PommentDataContext {
      * 获取评论（未过滤）
      * @param url
      */
-    public getPosts(url: string): Promise<PommentPost[]> {
-        return fs.readJSON(this.getThreadPath(url), textOptions);
+    public async getPosts(url: string): Promise<PommentPost[]> {
+        if (!fs.existsSync(this.getThreadPath(url))) {
+            throw new PommentWebError(404);
+        }
+        const data = await fs.readJSON(this.getThreadPath(url), textOptions);
+        return data.reverse();
     }
 
     /**
      * 获取一条评论（未过滤）
      */
-    public async getPost(url: string, uuid: string): Promise<PommentPost | undefined> {
+    public async getPost(url: string, uuid: string): Promise<PommentPost> {
         const posts = await this.getPosts(url);
-        return posts.find((e) => e.uuid === uuid);
+        const post = posts.find((e) => e.uuid === uuid);
+        if (!post) {
+            throw new PommentWebError(404);
+        }
+        return post;
     }
 }
