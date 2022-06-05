@@ -58,6 +58,22 @@ export default class PommentDataContext {
     }
 
     /**
+     * 获取所有评论串的元数据
+     */
+    public getThreadList() {
+        const list = [...this.indexMap.values()];
+        return list.sort((a, b) => {
+            if (a.latestPostAt < b.latestPostAt) {
+                return 1;
+            }
+            if (a.latestPostAt > b.latestPostAt) {
+                return -1;
+            }
+            return 0;
+        });
+    }
+
+    /**
      * 初始化评论串的元数据
      */
     public initThreadMetadata(url: string, title: string) {
