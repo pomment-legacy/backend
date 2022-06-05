@@ -3,6 +3,7 @@ import { ControllerConfig } from '@/types/server';
 import { PommentComputedContext } from '@/server/main';
 import { AjaxSuccess } from '@/server/utils/wrapper';
 import { filterKey, paging } from '@/server/utils/dataHandler';
+import crypto from 'crypto';
 
 async function handler(ctx: PommentComputedContext) {
     const url = base64url.decode(ctx.params.urlEncoded);
@@ -12,7 +13,11 @@ async function handler(ctx: PommentComputedContext) {
         reverse: true,
         safe: true,
     });
-    const rows = rowsOriginal.map((e) => filterKey(e, ['hidden', 'receiveEmail', 'rating', 'editKey', 'origContent']));
+    const rows = rowsOriginal.map((e) => {
+        const out = filterKey(e, ['email', 'hidden', 'receiveEmail', 'rating', 'editKey', 'origContent']);
+        out.emailHashed = crypto.createHash('md5').update(e.email).digest('hex');
+        return out;
+    });
     AjaxSuccess(ctx, {
         url,
         posts: paging(rows, pageSize, pageNum),
