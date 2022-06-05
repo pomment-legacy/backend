@@ -45,7 +45,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@braintree/sanitize-url": "^5.0.2",
+    "@braintree/sanitize-url": "^6.0.0",
     "async-validator": "^4.1.1",
     "axios": "^0.21.1",
     "base64url": "^3.0.1",
