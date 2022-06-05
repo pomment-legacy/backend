@@ -14,7 +14,7 @@ export function verify(token: string, secret: string) {
 }
 
 export function checkPermission(ctx: PommentComputedContext, next: Koa.Next) {
-    if (ctx.path === '/v4/admin/auth') {
+    if (!ctx.path.startsWith('/v4/admin') || ctx.path === '/v4/admin/auth') {
         return next();
     }
 

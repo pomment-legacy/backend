@@ -28,6 +28,8 @@ export interface PommentPost {
 
 export type PommentSubmittedPost = Omit<PommentPost, 'uuid' | 'createdAt' | 'updatedAt' | 'origContent' | 'editKey'>
 
+export type PommentSubmittedPostByGuest = Omit<PommentSubmittedPost, 'hidden' | 'byAdmin' | 'avatar' | 'rating'>
+
 // 以下为旧的类型声明
 
 export interface IPostQueryResults {
