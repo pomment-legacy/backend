@@ -4,6 +4,7 @@ import path from 'path';
 import { PommentWebError } from '@/server/utils/error';
 import { v5 as uuidv5 } from 'uuid';
 import crypto from 'crypto';
+import { siteVerify } from '@/api/recaptcha';
 
 const textOptions = {
     encoding: 'utf8',
@@ -227,6 +228,38 @@ export default class PommentDataContext {
         metadata.title = editedData.title;
         this.saveThreadList();
         return metadata;
+    }
+
+    /**
+     * 对指定的评论进行 reCAPTCHA 检查
+     * @param url
+     * @param uuid
+     * @param options
+     */
+    public async verifyPost(url: string, uuid: string, options: {
+        secret: string
+        response: string
+        minimumScore: number
+    }) {
+        const post = await this.getPost(url, uuid);
+        const result = await siteVerify({
+            secret: options.secret,
+            response: options.response,
+        });
+        console.log('校验结果', result);
+        if (result.action !== 'submit_comment') {
+            return;
+        }
+        if (!result.success) {
+            return;
+        }
+        if (result.score < options.minimumScore) {
+            return;
+        }
+        const editedPost: PommentPost = { ...post };
+        editedPost.hidden = false;
+        editedPost.rating = result.score;
+        await this.setPost(url, uuid, editedPost);
     }
 
     /**
