@@ -21,7 +21,7 @@ async function handler(ctx: PommentComputedContext) {
     // 构建待提交评论
     const constructedPost: PommentSubmittedPost = {
         ...post,
-        hidden: true,
+        hidden: ctx.$config.reCAPTCHA.enabled,
         byAdmin: false,
         avatar: '',
         rating: 0,
@@ -35,13 +35,15 @@ async function handler(ctx: PommentComputedContext) {
     AjaxSuccess(ctx, { ...constructedPost, hidden: false });
 
     // 异步进行 reCAPTCHA 处理
-    ctx.$pomment.verifyPost(url, savedPost.uuid, {
-        secret: ctx.$config.reCAPTCHA.secretKey,
-        response,
-        minimumScore: ctx.$config.reCAPTCHA.minimumScore,
-    }).then(() => {}).catch((e) => {
-        console.log(e);
-    });
+    if (ctx.$config.reCAPTCHA.enabled) {
+        ctx.$pomment.verifyPost(url, savedPost.uuid, {
+            secret: ctx.$config.reCAPTCHA.secretKey,
+            response,
+            minimumScore: ctx.$config.reCAPTCHA.minimumScore,
+        }).then(() => {}).catch((e) => {
+            console.log(e);
+        });
+    }
 }
 
 const thread: ControllerConfig = {
